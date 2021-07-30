@@ -1,0 +1,129 @@
+header {
+    text-align: center;
+    background-color: grey;
+    padding: 10px;
+    margin: 10px;
+}
+
+main {
+    text-align: center;
+    background-color: skyblue;
+    margin: 10px;
+}
+
+.card-num-list {
+    padding-top: 30px;
+    padding-bottom: 5px;
+}
+
+.card-num-list button {
+    background-color: rgb(84, 93, 172);
+    width: 35px;
+    height: 35px;
+}
+
+.start-game {
+    margin: 5px;
+    padding: 10px;
+}
+
+#start-game-user01 {
+    background-color: blue;
+}
+
+#delete-user01 {
+    background-color: red;
+}
+
+.choice-card {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 5px;
+}
+
+.choice-card input {
+    width: 35px;
+    height: 50px;
+    text-align: center;
+}
+
+.hint-input {
+    padding: 10px;
+    font-size: 13px;
+    margin-left: 120px;
+    margin-right: 120px;
+    border: 7px solid rgb(58, 56, 56);
+    background-color: rgb(69, 199, 132);
+    color: rgb(48, 41, 41);
+}
+
+.hint-input span {
+    text-align: center;
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 7px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.hint-input #ball {
+    padding: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 15px 15px 15px 15px / 15px 15px 15px 15px;
+    border: 2px solid rgb(36, 36, 134);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 15px;
+    color: black;
+}
+
+.hint-input #strike {
+    padding: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 15px 15px 15px 15px / 15px 15px 15px 15px;
+    border: 2px solid red;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 15px;
+    color: black;
+}
+
+.hint-input #count {
+    padding: 5px;
+    border-radius: 15px 15px 15px 15px / 15px 15px 15px 15px;
+    border: 2px solid white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 15px;
+    color: black;
+}
+
+.input-result {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 5px;
+}
+
+.input-result input {
+    width: 35px;
+    height: 50px;
+    text-align: center;
+}
+
+#start-game-user02 {
+    background-color: blue;
+}
+
+#delete-user02 {
+    background-color: red;
+}
+
+.card-num-list02 {
+    padding-top: 5px;
+    padding-bottom: 30px;
+}
+
+.card-num-list02 button {
+    background-color: rgb(189, 197, 76);
+    width: 35px;
+    height: 35px;
+}
