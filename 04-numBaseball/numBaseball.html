@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="./numBaseball.css">
+  <script src="./numBaseball.js" defer></script>
+  <title>숫자야구</title>
+</head>
+
+<body>
+  <header>
+    숫자야구 게임
+  </header>
+  <main>
+    <div class="card-num-list">
+      <button id="button00">0</button>
+      <button id="button01">1</button>
+      <button id="button02">2</button>
+      <button id="button03">3</button>
+      <button id="button04">4</button>
+      <button id="button05">5</button>
+      <button id="button06">6</button>
+      <button id="button07">7</button>
+      <button id="button08">8</button>
+      <button id="button09">9</button>
+    </div>
+    <div class="start-game">
+      <button id="start-game-user01">제출하기</button>
+      <button id="delete-user01">지우기</button>
+    </div>
+    <div class="choice-card">
+      User01
+      <input id="user01-card-1" readonly type="text" placeholder="1">
+      <input id="user01-card-2" readonly type="text" placeholder="2">
+      <input id="user01-card-3" readonly type="text" placeholder="3">
+      <input id="user01-card-4" readonly type="text" placeholder="4">
+    </div>
+    <!---->
+    <div id="hint-input" class="hint-input">
+      <p>
+        <span id="ball"></span> 볼
+        <span id="strike"></span> 스트라이크 입니다
+        <p>
+          <span id="out"></span>
+        </p>
+      </p>
+      <p>
+        user02의 기회가<span id="count">10</span>번 남았습니다
+      </p>
+    </div>
+    <!---->
+    <div class="input-result">
+      User02
+      <input id="user02-card-1" readonly type="text" placeholder="1">
+      <input id="user02-card-2" readonly type="text" placeholder="2">
+      <input id="user02-card-3" readonly type="text" placeholder="3">
+      <input id="user02-card-4" readonly type="text" placeholder="4">
+    </div>
+    <div class="start-game">
+      <button id="start-game-user02">제출하기</button>
+      <button id="delete-user02">지우기</button>
+    </div>
+    <div class="card-num-list02">
+      <button id="button0">0</button>
+      <button id="button1">1</button>
+      <button id="button2">2</button>
+      <button id="button3">3</button>
+      <button id="button4">4</button>
+      <button id="button5">5</button>
+      <button id="button6">6</button>
+      <button id="button7">7</button>
+      <button id="button8">8</button>
+      <button id="button9">9</button>
+    </div>
+  </main>
+</body>
+
+</html>

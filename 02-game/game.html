@@ -1,0 +1,36 @@
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./game.css">
+    <script src="./game.js" defer></script>
+    <title>쿵쿵따 게임</title>
+</head>
+
+<body>
+    <header>
+        <div class="header">공포의 쿵쿵따</div>
+    </header>
+    <main>
+        <div>
+            <h1>
+                <span id="order">1</span>번 째 참가자
+            </h1>
+            <h2>
+                제시어: <span id='word'></span>
+            </h2>
+        </div>
+
+        <div class="input-button">
+            <input type="text" class="input" onkeypress="{onKeyPress();}" />
+            <button class="button">입력</button>
+        </div>
+        <div>
+            <p class="worning" id="wrong-alert"></p>
+            <!-- 입력한 단어는 3글자 이상이어야 합니다 -->
+        </div>
+    </main>
+</body>
+
+</html>
