@@ -6,19 +6,29 @@ header {
    padding: 20px;
 }
 
-main div{
+main {
    margin-left: 50px;
-   padding: 10px;
+}
+
+#result {
+   padding-top: 20px;
+   padding-bottom: 20px;
+}
+
+#bonus {
+   padding-top: 20px;
+   padding-bottom: 20px;
 }
 
 .ball {
    display: inline-block;
-   border: 1px solid black;
-   border-radius: 20px;
-   width: 40px;
-   height: 40px;
-   line-height: 40px;
-   font-size: 20px;
+   border: 3px solid black;
+   border-radius: 40px;
+   width: 30px;
+   height: 30px;
+   line-height: 30px;
+   font-size: 15px;
    text-align: center;
-   margin-right: 20px;
+   margin-right: 5px;
+   margin-left: 5px;
 }
