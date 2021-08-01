@@ -1,7 +1,3 @@
-//* 태그 선택 */
-let $result = document.querySelector('#result');
-let $bonus = document.querySelector('#bonus');
-
 //* listener function (callback function) */
 // 45개의 번호 배열을 생성 [1, 2, 3, ... 45];
 const candidate = Array(45).fill().map((ele, idx) => idx + 1);
@@ -24,22 +20,24 @@ console.log('winBalls: ', winBalls, 'bonusBall: ', bonusBall);
 
 // todo: setTomeout() 함수로 지정시간 뒤 코드가 실행될 수 있도록 해보자
 //* refactoring (중복제거)
-const showBalls = (number, $target) => { // 반복된 코드를 줄이기 위한 함수
+let $result = document.querySelector('#result'); // 태그 선택
+const drawBall = (number, $parent) => { // 반복된 코드를 줄이기 위한 함수
    const $ball = document.createElement('div');
    $ball.className = 'ball';
    $ball.textContent = number;
-   $target.appendChild($ball);
+   $parent.appendChild($ball);
 }
 // 6개의 winBalls
 // [0, 1, 2, 3, 4, 5] -> [1000, 2000, 3000, 4000, 5000, 6000] 
 for (let i = 0; i < 6; i += 1) {
    setTimeout(() => {
-      showBalls(winBalls[i], $result);
+      drawBall(winBalls[i], $result);
    }, (i + 1) * 1000); // 1000 2000 3000 4000 5000 6000
 }
 // bonusBall
+let $bonus = document.querySelector('#bonus'); // 태그 선택
 setTimeout(() => {
-   showBalls(bonusBall, $bonus);
+   drawBall(bonusBall, $bonus);
 }, 8000);
 
 //* eventListener */
