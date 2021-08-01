@@ -23,7 +23,7 @@ let bonusBall = shuffle[6]; // 7번째 보너스 볼
 console.log('winBalls: ', winBalls, 'bonusBall: ', bonusBall);
 
 // todo: setTomeout() 함수로 지정시간 뒤 코드가 실행될 수 있도록 해보자
-const showBalls = (number, $target) => {
+const showBalls = (number, $target) => { // 반복된 코드를 줄이기 위한 함수
    const $ball = document.createElement('div');
    $ball.className = 'ball';
    $ball.textContent = number;
