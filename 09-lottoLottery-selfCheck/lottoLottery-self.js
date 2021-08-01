@@ -41,7 +41,7 @@ const colorize = (number, $tag) => {
 const drawBall = (number, $parent) => { // 반복된 코드를 줄이기 위한 함수
    const $ball = document.createElement('div');
    $ball.className = 'ball';
-   colorize(number, $ball);
+   colorize(number, $ball); // 범위별 공 색상을 바꿔준다
    $ball.textContent = number;
    $parent.appendChild($ball);
 }
