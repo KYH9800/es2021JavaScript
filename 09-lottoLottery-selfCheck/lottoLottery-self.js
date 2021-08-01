@@ -58,6 +58,7 @@ setTimeout(() => {
    drawBall(bonusBall, $bonus);
 }, 8000);
 
+// todo(숙제): 내가 입력한 번호가 몇개가 맞고 몇등인지를 알수있게 구현
 //* eventListener */
 
 /*
