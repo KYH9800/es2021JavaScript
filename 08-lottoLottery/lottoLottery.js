@@ -41,9 +41,7 @@ setTimeout(() => {
 }, 8000);
 
 //* eventListener */
-/* setTimeout(() => {
-    내용
-}, 밀리초); */
+
 /*
 for (let i = candidate.length; i > 0; i--) {
    const random = Math.floor(Math.random() * i); // 무작위 인덱스 뽑기
