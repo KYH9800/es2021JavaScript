@@ -21,9 +21,27 @@ console.log('winBalls: ', winBalls, 'bonusBall: ', bonusBall);
 // todo: setTomeout() 함수로 지정시간 뒤 코드가 실행될 수 있도록 해보자
 //* refactoring (중복제거)
 let $result = document.querySelector('#result'); // 태그 선택
+
+// 1-10 노란색, 11-20 파란색, 21-30 빨간색, 31-40 검은색, 41-45 초록색
+// $tag.style.속성 = '속성 값'
+const colorize = (number, $tag) => {
+   if (number < 10) {
+      $tag.style.border = '3px solid yellow';
+   } else if (number <= 20) {
+      $tag.style.border = '3px solid blue';
+   } else if (number <= 30) {
+      $tag.style.border = '3px solid red';
+   } else if (number <= 40) {
+      $tag.style.border = '3px solid black';
+   } else if (number <= 45) {
+      $tag.style.border = '3px solid green';
+   }
+}
+
 const drawBall = (number, $parent) => { // 반복된 코드를 줄이기 위한 함수
    const $ball = document.createElement('div');
    $ball.className = 'ball';
+   colorize(number, $ball);
    $ball.textContent = number;
    $parent.appendChild($ball);
 }
