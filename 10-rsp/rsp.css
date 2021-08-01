@@ -1,3 +1,38 @@
 header {
-   
+   background-color: whitesmoke;
+   text-align: center;
+   margin: 10px;
+   padding: 20px;
+}
+
+main {
+   text-align: center;
+}
+
+.screen {
+   display: inline-flex;
+}
+
+.computer {
+   height: 139px;
+   width: 80px;
+   margin: 20px;
+   padding: 30px;
+}
+
+.result {
+   padding: 60px;
+   line-height: 110px;
+}
+
+.user {
+   height: 139px;
+   width: 80px;
+   margin: 20px;
+   padding: 30px;
+}
+
+button {
+   width: 70px;
+   height: 30px;
 }
