@@ -15,45 +15,91 @@ $computer.style.backgroundSize = 'auto 200px';
 $user.style.background = `url(${IMG_URL}) 0 0`; // 가위
 $user.style.backgroundSize = 'auto 200px';
 
-const rspX = {
+const rspX = { // 객체 리터럴
    scissors: '0', // 가위
    rock: '-225px', // 바위
    paper: '162px', // 보
 }
 // computer
 function rspXImg(rsp) { // 가위 바위 보 이미지
-   coord = rsp;
-   $computer.style.background = `url(${IMG_URL}) ${rsp} 0`; // 가위
+   computerChice = rsp;
+   $computer.style.background = `url(${IMG_URL}) ${rspX[computerChice]} 0`; // 가위
    $computer.style.backgroundSize = 'auto 200px';
 }
 
-let coord = 0;
-setInterval(() => {
-   if (coord === rspX.scissors) { // 가위면
-      rspXImg(rspX.rock); // 바위로
-   } else if (coord === rspX.rock) { //바위면
-      rspXImg(rspX.paper); // 보로
+let computerChice = 'rock';
+const changeComputerHand = () => {
+   if (computerChice === 'scissors') { // 가위면
+      rspXImg('rock'); // 바위로
+   } else if (computerChice === 'rock') { //바위면
+      rspXImg('paper'); // 보로
    } else { // 보면
-      rspXImg(rspX.scissors); // 가위로
+      rspXImg('scissors'); // 가위로
    }
-}, 50); // 0.05초
+}
+let computerIntervalID = setInterval(changeComputerHand, 30); // 0.05초
 
-// user
+user
+
 function userRspXImg(rsp) { // 가위 바위 보 이미지
-   userCoord = rsp;
-   $user.style.background = `url(${IMG_URL}) ${rsp} 0`; // 가위
+   userChoice = rsp;
+   $user.style.background = `url(${IMG_URL}) ${rspX[userChoice]} 0`; // 가위
    $user.style.backgroundSize = 'auto 200px';
 }
 
-let userCoord = 0;
-setInterval(() => {
-   if (userCoord === rspX.scissors) { // 가위면
-      userRspXImg(rspX.rock); // 바위로
-   } else if (userCoord === rspX.rock) { //바위면
-      userRspXImg(rspX.paper); // 보로
+let userChoice = 'scissors';
+const changeUserHand = () => {
+   if (userChoice === 'scissors') { // 가위면
+      userRspXImg('rock'); // 바위로
+   } else if (userChoice === 'rock') { //바위면
+      userRspXImg('paper'); // 보로
    } else { // 보면
-      userRspXImg(rspX.scissors); // 가위로
-   }
-}, 55); // 0.05초
+      userRspXImg('scissors'); // 가위로
+   } // setTimeout(changeUserHand, 55);
+}
+let userIntervalID = setInterval(changeUserHand, 50); // 0.05초
+// setTimeout(changeUserHand, 55);
 
+// let ID = setInterval(function, milliSec); // 시작
+// clearInterval(ID); 종료
 // todo: 버튼 click 시 승부가 날 수 있도록 이미지 정지 -> 결과 보여주기(score)
+function userClearInterVal(userSrp) { // user가 선택한 묵찌빠 중 하나
+   console.log(userSrp);
+   $user.style.background = `url(${IMG_URL}) ${rspX[userSrp]} 0`; // 가위
+   $user.style.backgroundSize = 'auto 200px';
+}
+
+function reStart() { // 결과를 본 뒤 2초 뒤 재시작
+   setTimeout(() => {
+      computerIntervalID = setInterval(changeComputerHand, 30); // 0.05초
+      userIntervalID = setInterval(changeUserHand, 50); // 0.05초
+   }, 2000);
+}
+
+const onScissorsButton = () => {
+   clearInterval(computerIntervalID); // computer의 srp를 멈춘다
+   clearInterval(userIntervalID); // user의 srp를 멈춘다
+   userClearInterVal('scissors'); // user의 선택: 가위
+   reStart(); // 재시작 함수
+}
+
+const onRockButton = () => {
+   clearInterval(computerIntervalID); // computer의 srp를 멈춘다
+   clearInterval(userIntervalID); // user의 srp를 멈춘다
+   userClearInterVal('rock'); // user의 선택: 바위
+   reStart(); // 재시작 함수
+}
+
+const onPaperButton = () => {
+   clearInterval(computerIntervalID); // computer의 srp를 멈춘다
+   clearInterval(userIntervalID); // user의 srp를 멈춘다
+   userClearInterVal('paper'); // user의 선택: 보
+   reStart(); // 재시작 함수
+}
+
+//* 승부 결과를 비교하고 이긴 쪽의 score를 올린다 (2021.08.03 화요일 할 일...)
+// TODO here
+
+$scissors.addEventListener('click', onScissorsButton);
+$rock.addEventListener('click', onRockButton);
+$paper.addEventListener('click', onPaperButton);
