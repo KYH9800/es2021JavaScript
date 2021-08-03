@@ -71,12 +71,19 @@ function userClearInterVal(userSrp) { // user가 선택한 묵찌빠 중 하나
 
 function reStart() { // 결과를 본 뒤 2초 뒤 재시작
    setTimeout(() => {
+      // 연속 클릭 버그 해결을 위해 변수에 담긴걸 없애준다
       computerIntervalID = setInterval(changeComputerHand, 30); // 0.05초
       userIntervalID = setInterval(changeUserHand, 50); // 0.05초
+      $scissors.addEventListener('click', onScissorsButton);
+      $rock.addEventListener('click', onRockButton);
+      $paper.addEventListener('click', onPaperButton);
    }, 2000);
 }
 
 const onScissorsButton = () => {
+   $scissors.removeEventListener('click', onScissorsButton);
+   $rock.removeEventListener('click', onRockButton);
+   $paper.removeEventListener('click', onPaperButton);
    clearInterval(computerIntervalID); // computer의 srp를 멈춘다
    clearInterval(userIntervalID); // user의 srp를 멈춘다
    userClearInterVal('scissors'); // user의 선택: 가위
@@ -84,6 +91,9 @@ const onScissorsButton = () => {
 }
 
 const onRockButton = () => {
+   $scissors.removeEventListener('click', onScissorsButton);
+   $rock.removeEventListener('click', onRockButton);
+   $paper.removeEventListener('click', onPaperButton);
    clearInterval(computerIntervalID); // computer의 srp를 멈춘다
    clearInterval(userIntervalID); // user의 srp를 멈춘다
    userClearInterVal('rock'); // user의 선택: 바위
@@ -91,6 +101,9 @@ const onRockButton = () => {
 }
 
 const onPaperButton = () => {
+   $scissors.removeEventListener('click', onScissorsButton);
+   $rock.removeEventListener('click', onRockButton);
+   $paper.removeEventListener('click', onPaperButton);
    clearInterval(computerIntervalID); // computer의 srp를 멈춘다
    clearInterval(userIntervalID); // user의 srp를 멈춘다
    userClearInterVal('paper'); // user의 선택: 보
@@ -103,3 +116,14 @@ const onPaperButton = () => {
 $scissors.addEventListener('click', onScissorsButton);
 $rock.addEventListener('click', onRockButton);
 $paper.addEventListener('click', onPaperButton);
+
+/*
+* ** .removeEventListener('click', () => {}) 의 주의점 **
+   1. addEventListener의 함수와 removeEventListener의 함수를 === 연산을 할 때,
+   false가 나온다
+
+   2. 함수도 객체다. 객체끼리 즉, func(1) === func(1) // false 가 나온다
+
+   3. [플래그변수] / let func1 = func(1); 변수에 함수(객체)를 담고.. 비교하면 비로소
+   func1 === func1 // true가 나온다.
+*/
