@@ -83,34 +83,21 @@ function reStart() { // 결과를 본 뒤 2초 뒤 재시작
 
 // 승패 결과
 function winOrLose(result) {
-   // todo: 승부 결과를 TODO HERE..
-   if (result === 'scissors') {
-      if (computerChice === 'rock') {
-         $result.textContent = '패배';
-      } else if (computerChice === 'paper') {
-         $result.textContent = '승리';
-      } else {
-         $result.textContent = '무승부';
-      }
-   }
-   if (result === 'rock') {
-      if (computerChice === 'paper') {
-         $result.textContent = '패배';
-      } else if (computerChice === 'scissors') {
-         $result.textContent = '승리';
-      } else {
-         $result.textContent = '무승부';
-      }
-   }
-   if (result === 'paper') {
-      if (computerChice === 'scissors') {
-         $result.textContent = '패배';
-      } else if (computerChice === 'rock') {
-         $result.textContent = '승리';
-      } else {
-         $result.textContent = '무승부';
-      }
-   }
+   // todo: 승부 결과를 TODO HERE.. (refactoring... using 삼항연산자)
+   result === 'scissors' && computerChice === 'rock' ?
+      $result.textContent = '패배' :
+      result === 'scissors' && computerChice === 'paper' ?
+      $result.textContent = '승리' :
+      result === 'rock' && computerChice === 'paper' ?
+      $result.textContent = '패배' :
+      result === 'rock' && computerChice === 'scissors' ?
+      $result.textContent = '승리' :
+      result === 'paper' && computerChice === 'scissors' ?
+      $result.textContent = '패배' :
+      result === 'paper' && computerChice === 'rock' ?
+      $result.textContent = '승리' :
+      $result.textContent = '무승부';
+
    setTimeout(() => { // 승부결과 2초뒤 리셋
       $result.textContent = '';
    }, 2000);
