@@ -21,6 +21,7 @@ const rspX = { // 객체 리터럴
    rock: '-225px', // 바위
    paper: '162px', // 보
 }
+
 //* computer
 function rspXImg(rsp) { // 가위 바위 보 이미지
    computerChice = rsp;
@@ -28,7 +29,7 @@ function rspXImg(rsp) { // 가위 바위 보 이미지
    $computer.style.backgroundSize = 'auto 200px';
 }
 
-let computerChice = 'rock';
+let computerChice = '';
 const changeComputerHand = () => {
    if (computerChice === 'scissors') { // 가위면
       rspXImg('rock'); // 바위로
@@ -41,13 +42,14 @@ const changeComputerHand = () => {
 let computerIntervalID = setInterval(changeComputerHand, 30); // 0.05초
 //* user
 
+let userChoice = '';
+
 function userRspXImg(rsp) { // 가위 바위 보 이미지
    userChoice = rsp;
    $user.style.background = `url(${IMG_URL}) ${rspX[userChoice]} 0`; // 가위
    $user.style.backgroundSize = 'auto 200px';
 }
 
-let userChoice = 'scissors';
 const changeUserHand = () => {
    if (userChoice === 'scissors') { // 가위면
       userRspXImg('rock'); // 바위로
@@ -81,30 +83,50 @@ function reStart() { // 결과를 본 뒤 2초 뒤 재시작
    }, 2000);
 }
 
+let pcScore = 0;
+let userScore = 0;
 // 승패 결과
 function winOrLose(result) {
    // todo: 승부 결과를 TODO HERE.. (refactoring... using 삼항연산자)
-   result === 'scissors' && computerChice === 'rock' ?
-      $result.textContent = '패배' :
-      result === 'scissors' && computerChice === 'paper' ?
-      $result.textContent = '승리' :
-      result === 'rock' && computerChice === 'paper' ?
-      $result.textContent = '패배' :
-      result === 'rock' && computerChice === 'scissors' ?
-      $result.textContent = '승리' :
-      result === 'paper' && computerChice === 'scissors' ?
-      $result.textContent = '패배' :
-      result === 'paper' && computerChice === 'rock' ?
-      $result.textContent = '승리' :
+   console.log('result: ', result);
+   if (result === 2 || result === -1) {
+      $result.textContent = '승리';
+      userScore++;
+      $userScore.textContent = userScore;
+      // console.log('userScore', userScore);
+   } else if (result === -2 || result === 1) {
+      $result.textContent = '패배';
+      pcScore++;
+      $pcScore.textContent = pcScore;
+      // console.log('pcScore', pcScore);
+   } else {
       $result.textContent = '무승부';
-
+   }
    setTimeout(() => { // 승부결과 2초뒤 리셋
       $result.textContent = '';
    }, 2000);
+
+   function massege(massege) {
+      setTimeout(() => {
+         alert(massege);
+      }, 2000);
+   }
+
+   if (userScore === 5) {
+      massege(`user Win!! pc: ${pcScore} : user ${userScore}`);
+      $pcScore.textContent = '';
+      $userScore.textContent = '';
+   } else if (pcScore === 5) {
+      massege(`computer Win!! pc: ${pcScore} : user ${userScore}`);
+      $pcScore.textContent = '';
+      $userScore.textContent = '';
+   }
 }
 
+// user와 PC의 최종결과를 담는 변수
+let resultComputer = '';
+let resultUser = '';
 // 클릭버튼 반복 함수
-// todo: 가위 바위 보 승.패 결과를 여기에 작성한다
 let clicked = true;
 const onClickButton = (srpX) => {
    $scissors.removeEventListener('click', onScissorsButton);
@@ -112,14 +134,28 @@ const onClickButton = (srpX) => {
    $paper.removeEventListener('click', onPaperButton);
    if (clicked) { // 클릭을 했으면, 아래의 코드를 실행
       clearInterval(computerIntervalID); // computer의 srp를 멈춘다
-      console.log('computerChice: ', computerChice); // 멈췄을때 computer의 결과
+      resultComputer = computerChice;
+      console.log('resultComputer: ', resultComputer); //* 멈췄을때 computer의 결과
       clearInterval(userIntervalID); // user의 srp를 멈춘다
       userClearInterVal(srpX); // user의 선택: 가위
       clicked = false;
       // 나의 선택 조건문(삼항연산자)
       const myChoice = event.target.id;
-      console.log('myChoice: ', myChoice);
-      winOrLose(srpX);
+      resultUser = myChoice;
+      console.log('resultUser: ', resultUser); //* 멈췄을때 user의 결과
+
+      // scoreTable
+      const scoreTable = {
+         rock: 0,
+         scissors: 1,
+         paper: -1,
+      }
+
+      const myScore = scoreTable[resultUser];
+      const computerScore = scoreTable[resultComputer];
+      const diff = myScore - computerScore;
+      winOrLose(diff);
+
       reStart(); // 재시작 함수
    }
 }
@@ -154,3 +190,21 @@ const myChoice = event.target.textContent === '바위' ?
          'scissors' :
          'paper';
 */
+
+// result === 'scissors' && computerChice === 'rock' ?
+//    $result.textContent = '패배' :
+//    result === 'scissors' && computerChice === 'paper' ?
+//    $result.textContent = '승리' :
+//    result === 'rock' && computerChice === 'paper' ?
+//    $result.textContent = '패배' :
+//    result === 'rock' && computerChice === 'scissors' ?
+//    $result.textContent = '승리' :
+//    result === 'paper' && computerChice === 'scissors' ?
+//    $result.textContent = '패배' :
+//    result === 'paper' && computerChice === 'rock' ?
+//    $result.textContent = '승리' :
+//    $result.textContent = '무승부';
+
+// result === 2 || result === -1 ?
+//    $result.textContent = '승리' : result === -2 || result === 1 ?
+//    $result.textContent = '패배' : $result.textContent = '무승부';
