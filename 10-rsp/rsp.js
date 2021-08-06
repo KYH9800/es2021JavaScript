@@ -86,11 +86,10 @@ function reStart() { // 결과를 본 뒤 2초 뒤 재시작
 let pcScore = 0;
 let userScore = 0;
 // 승패 결과
+// todo: 승부 결과를 TODO HERE.. (refactoring... using 삼항연산자)
 function winOrLose(result) {
-   // todo: 승부 결과를 TODO HERE.. (refactoring... using 삼항연산자)
    console.log('result: ', result);
-   // diff === '강아지' || diff === '고양이' || diff === '사자' || diff === '거북이'
-   // [강아지, 고양이, 사자, 거북이].includes(difff)
+   // [2, -1]은 승리 조건이고, [-2, 1]은 패배 조건, 점수표 참고
    if ([2, -1].includes(result)) { // result === 2 || result === -1
       $result.textContent = '승리';
       userScore++;
@@ -210,3 +209,6 @@ const myChoice = event.target.textContent === '바위' ?
 // result === 2 || result === -1 ?
 //    $result.textContent = '승리' : result === -2 || result === 1 ?
 //    $result.textContent = '패배' : $result.textContent = '무승부';
+
+// diff === '강아지' || diff === '고양이' || diff === '사자' || diff === '거북이'
+// [강아지, 고양이, 사자, 거북이].includes(difff)
