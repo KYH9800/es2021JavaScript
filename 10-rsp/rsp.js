@@ -89,12 +89,14 @@ let userScore = 0;
 function winOrLose(result) {
    // todo: 승부 결과를 TODO HERE.. (refactoring... using 삼항연산자)
    console.log('result: ', result);
-   if (result === 2 || result === -1) {
+   // diff === '강아지' || diff === '고양이' || diff === '사자' || diff === '거북이'
+   // [강아지, 고양이, 사자, 거북이].includes(difff)
+   if ([2, -1].includes(result)) { // result === 2 || result === -1
       $result.textContent = '승리';
       userScore++;
       $userScore.textContent = userScore;
       // console.log('userScore', userScore);
-   } else if (result === -2 || result === 1) {
+   } else if ([-2, 1].includes(result)) { // result === -2 || result === 1
       $result.textContent = '패배';
       pcScore++;
       $pcScore.textContent = pcScore;
