@@ -1,0 +1,21 @@
+header {
+   text-align: center;
+   background-color: whitesmoke;
+   margin: 10px;
+   padding: 30px;
+}
+
+main {
+   text-align: center;
+}
+
+#testColor {
+   text-align: center;
+   background-color: blue;
+   margin: 10px;
+   padding: 80px;
+}
+
+.div01 div{
+   padding: 7px;
+}
