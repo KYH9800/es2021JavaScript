@@ -113,11 +113,11 @@ function winOrLose(result) {
       }, 2000);
    }
 
-   if (userScore === 5) {
+   if (userScore >= 5) {
       massege(`user Win!! pc: ${pcScore} : user ${userScore}`);
       $pcScore.textContent = '';
       $userScore.textContent = '';
-   } else if (pcScore === 5) {
+   } else if (pcScore >= 5) {
       massege(`computer Win!! pc: ${pcScore} : user ${userScore}`);
       $pcScore.textContent = '';
       $userScore.textContent = '';
