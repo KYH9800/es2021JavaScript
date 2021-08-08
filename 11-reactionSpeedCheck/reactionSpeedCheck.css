@@ -9,13 +9,24 @@ main {
    text-align: center;
 }
 
-#testColor {
+#screen {
    text-align: center;
-   background-color: blue;
    margin: 10px;
    padding: 80px;
 }
 
-.div01 div{
+#screen.waiting {
+   background-color: blue;
+}
+
+#screen.ready {
+   background-color: red;
+}
+
+#screen.now {
+   background-color: green;
+}
+
+.div01 div {
    padding: 7px;
 }
