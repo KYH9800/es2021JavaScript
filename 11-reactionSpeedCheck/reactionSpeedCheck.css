@@ -15,6 +15,12 @@ main {
    padding: 80px;
 }
 
+#btn {
+   margin: 10px;
+   width: 150px;
+   height: 30px;
+}
+
 #screen.waiting {
    background-color: blue;
 }
