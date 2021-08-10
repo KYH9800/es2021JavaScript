@@ -73,3 +73,33 @@ $button.addEventListener('click', () => { // 초기화 버튼
 // }
 
 // new Date();
+
+/*
+Array.prototype.reduce()  예시로 설명
+* 배열.reduce((누적값, 현재값, 인덱스) => {
+*  return ...
+* }, 초기값)
+*/
+/*
+let arr = [1, 2, 3, 4, 5];
+
+arr.reduce((a, c) => {
+   return a + c;
+}, 0);
+a: 0 c: 1 = 1
+a: 1 c: 2 = 3
+a: 3 c: 3 = 6
+a: 6 c: 4 = 10
+a: 10 c: 5 = 15
+return a + c // 15;
+*/
+
+/* reduce를 통해 배열을 객체로 변형
+ * let names = ['철수', '영희', '맹구', '지연', '연지'];
+ * names.reduce((a, c, i) => {
+ *     a[i] = c;
+ *     return a;
+ * }, {});
+
+ * // {0: "철수", 1: "영희", 2: "맹구", 3: "지연", 4: "연지"}
+ */
