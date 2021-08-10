@@ -4,9 +4,10 @@ let $speed = document.querySelector('#speed'); // 속도 측정
 let $average = document.querySelector('#average'); // 평균 속도 측정
 
 // todo: waiting-blue, ready-red, now-green
+// 전역 scope
 let startTime;
 let endTime;
-let average = [];
+const average = []; // 평균값을 구하기 위한 배열
 // listenner function
 $screen.addEventListener('click', (event) => {
    // console.log('ready: ', event.target.classList.contains('ready'));
@@ -40,6 +41,8 @@ $screen.addEventListener('click', (event) => {
       }, 0); // 끝의 0은 초기값
       let divide = allNum / average.length // 모두 더한 값을 배열의 길이만큼 나눈다
       $average.textContent = `${Math.floor(divide)}ms` // 나타내준다
+      startTime = null;
+      endTime = null; // 시간을 초기화 해준다(혹시나를 대비)
       event.target.classList.replace('now', 'waiting');
       $screen.textContent = '준비가 됬다면 클릭하세요';
    }
