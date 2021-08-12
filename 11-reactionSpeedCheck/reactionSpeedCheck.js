@@ -1,5 +1,5 @@
 let $screen = document.querySelector('#screen'); // 클릭 색상 (clickEvent)
-let $button = document.querySelector('#btn'); // 클릭 색상 (clickEvent)
+let $btn = document.querySelector('#btn'); // 처음부터 다시시작
 let $speed = document.querySelector('#speed'); // 속도 측정
 let $average = document.querySelector('#average'); // 평균 속도 측정
 
@@ -47,13 +47,16 @@ $screen.addEventListener('click', (event) => {
       $screen.textContent = '준비가 됬다면 클릭하세요';
    }
 });
-$button.addEventListener('click', () => { // 초기화 버튼
-   startTime = '';
-   endTime = '';
-   average = [];
-   $speed.textContent = '0';
-   $average.textContent = '0';
+$btn.addEventListener('click', () => {
+   // TODO: 초기화 버튼
 });
+
+// startTime = '';
+// endTime = '';
+// average의 배열을 비운다 (average = []; error..)
+// $speed.textContent = '0';
+// $average.textContent = '0';
+
 /**
  ** event.target.classList.replace('원래 클래스', '바꿀 클래스'); - class 바꾸기
  ** event.target.classList.remove('클래스'); - class 삭제하기
