@@ -8,14 +8,15 @@ let $average = document.querySelector('#average'); // 평균 속도 측정
 let startTime;
 let endTime;
 const average = []; // 평균값을 구하기 위한 배열
+let timeOutID;
 // listenner function
 $screen.addEventListener('click', (event) => {
   // console.log('ready: ', event.target.classList.contains('ready'));
   if (event.target.classList.contains('waiting')) { // 파랑 화면인가?
     event.target.classList.replace('waiting', 'ready');
     $screen.textContent = '초록색이 되면 클릭하세요';
-
-    setTimeout(function () { // () => {};
+    // 변수에 setTimeout을 담아주고 아래에서 에러를 막기위해 clearTimeout을 해준다
+    timeOutID = setTimeout(function () { // () => {};
       // 시간재기 new Date();
       startTime = new Date();
       $screen.textContent = '클릭하세요!!';
@@ -23,9 +24,8 @@ $screen.addEventListener('click', (event) => {
     }, Math.floor(Math.random() * 1000) + 2000); // 2000~3000 사이
 
   } else if (event.target.classList.contains('ready')) { // 빨간 화면인가?
-    $screen.textContent = '준비!!';
-    alert('성급했어요. 다시 처음으로 돌아갑니다.');
-    clearTimeout('ready');
+    clearTimeout(timeOutID); // clearTimeout
+    alert('성급했어요!! 초록색이 되면 클릭하세요');
     event.target.classList.replace('ready', 'waiting');
     $screen.textContent = '준비가 됬다면 클릭하세요';
 
@@ -98,6 +98,10 @@ return a + c // 15;
  *     a[i] = c;
  *     return a;
  * }, {});
-
  * // {0: "철수", 1: "영희", 2: "맹구", 3: "지연", 4: "연지"}
  */
+
+// new Date() 년 월 일 시
+// new Date().getFullYear() 년 정보를 가져온다
+// new Date().getMonth() 월 정보를 가져온다
+// new Date().getDate() 일 정보를 가져온다
