@@ -51,11 +51,7 @@ $btn.addEventListener('click', () => {
    // TODO: 초기화 버튼
 });
 
-// startTime = '';
-// endTime = '';
 // average의 배열을 비운다 (average = []; error..)
-// $speed.textContent = '0';
-// $average.textContent = '0';
 
 /**
  ** event.target.classList.replace('원래 클래스', '바꿀 클래스'); - class 바꾸기
