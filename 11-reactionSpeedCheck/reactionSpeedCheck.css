@@ -1,38 +1,38 @@
 header {
-   text-align: center;
-   background-color: whitesmoke;
-   margin: 10px;
-   padding: 30px;
+  text-align: center;
+  background-color: whitesmoke;
+  margin: 10px;
+  padding: 30px;
 }
 
 main {
-   text-align: center;
+  text-align: center;
 }
 
 #screen {
-   text-align: center;
-   margin: 10px;
-   padding: 80px;
+  text-align: center;
+  margin: 10px;
+  padding: 80px;
 }
 
 #btn {
-   margin: 10px;
-   width: 150px;
-   height: 30px;
+  margin: 10px;
+  width: 150px;
+  height: 30px;
 }
 
 #screen.waiting {
-   background-color: blue;
+  background-color: blue;
 }
 
 #screen.ready {
-   background-color: red;
+  background-color: red;
 }
 
 #screen.now {
-   background-color: green;
+  background-color: green;
 }
 
 .div01 div {
-   padding: 7px;
+  padding: 7px;
 }
