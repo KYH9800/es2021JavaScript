@@ -50,7 +50,6 @@ $screen.addEventListener('click', (event) => {
 $btn.addEventListener('click', () => {
    // TODO: 초기화 버튼
 });
-
 // average의 배열을 비운다 (average = []; error..)
 
 /**
