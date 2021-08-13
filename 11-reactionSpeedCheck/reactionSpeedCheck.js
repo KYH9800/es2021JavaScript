@@ -105,3 +105,5 @@ return a + c // 15;
 // new Date().getFullYear() 년 정보를 가져온다
 // new Date().getMonth() 월 정보를 가져온다
 // new Date().getDate() 일 정보를 가져온다
+// new Date().getHours() 시간 정보를 가져온다
+// new Date().getMinutes() 시간의 분 정보를 가져론다
