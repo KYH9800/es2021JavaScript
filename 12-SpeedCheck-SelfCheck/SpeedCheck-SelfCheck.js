@@ -4,6 +4,7 @@ let $btn = document.querySelector('#btn'); // 처음부터 다시시작
 let $speed = document.querySelector('#speed'); // 속도 측정
 let $average = document.querySelector('#average'); // 평균 속도 측정
 let $sort = document.querySelector('#sort'); // 속도 표시
+let $result = document.querySelector('#result'); // 순위표시
 // 순위표시
 let $num01 = document.querySelector('#num01');
 let $num02 = document.querySelector('#num02');
@@ -51,15 +52,16 @@ $screen.addEventListener('click', (event) => {
     }, 0); // 끝의 0은 초기값
     let divide = allNum / average.length // 모두 더한 값을 배열의 길이만큼 나눈다
     $average.textContent = `${Math.floor(divide)}ms` // 나타내준다
+    // 속도를 내림차순으로 나열해 준다 (top 5 순위로 나열)
+    const topFive = average.sort((a, b) => a - b).slice(0, 5);
+    topFive.forEach((top, index) => { // forEach로 순위 나열
+      $result.append(
+        document.createElement('br'),
+        `${index + 1}위 : ${top}ms`,
+      );
+    });
     startTime = null;
     endTime = null; // 시간을 초기화 해준다(혹시나를 대비)
-    // 속도를 내림차순으로 나열해 준다 (top 5 순위로 나열)
-    average.sort((a, b) => a - b).slice(0, 5);
-    $num01.textContent = average[0];
-    $num02.textContent = average[1];
-    $num03.textContent = average[2];
-    $num04.textContent = average[3];
-    $num05.textContent = average[4];
     event.target.classList.replace('now', 'waiting');
     $screen.textContent = '준비가 됬다면 클릭하세요';
   }
@@ -81,4 +83,12 @@ $btn.addEventListener('click', () => {
       })
     }
     console.log(topFive);
+*/
+
+/*
+$num01.textContent = average[0];
+    $num02.textContent = average[1];
+    $num03.textContent = average[2];
+    $num04.textContent = average[3];
+    $num05.textContent = average[4];
 */
