@@ -11,3 +11,18 @@ td {
   font-size: 60px;
   text-align: center;
 }
+
+.btn {
+  margin-top: 20px;
+  margin-left: 120px;
+}
+
+button {
+  width: 80px;
+  height: 35px;
+  background-color: rgb(37, 36, 36);
+}
+
+button:hover {
+  background-color: rgb(66, 65, 65);
+}
