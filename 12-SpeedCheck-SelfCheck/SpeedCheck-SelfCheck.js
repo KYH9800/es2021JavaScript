@@ -4,6 +4,12 @@ let $btn = document.querySelector('#btn'); // 처음부터 다시시작
 let $speed = document.querySelector('#speed'); // 속도 측정
 let $average = document.querySelector('#average'); // 평균 속도 측정
 let $sort = document.querySelector('#sort'); // 속도 표시
+// 순위표시
+let $num01 = document.querySelector('#num01');
+let $num02 = document.querySelector('#num02');
+let $num03 = document.querySelector('#num03');
+let $num04 = document.querySelector('#num04');
+let $num05 = document.querySelector('#num05');
 
 // todo: waiting-blue, ready-red, now-green
 // 전역 scope
@@ -48,7 +54,12 @@ $screen.addEventListener('click', (event) => {
     startTime = null;
     endTime = null; // 시간을 초기화 해준다(혹시나를 대비)
     // 속도를 내림차순으로 나열해 준다 (top 5 순위로 나열)
-    $sort.textContent = average.sort((a, b) => a - b).slice(0, 5);
+    average.sort((a, b) => a - b).slice(0, 5);
+    $num01.textContent = average[0];
+    $num02.textContent = average[1];
+    $num03.textContent = average[2];
+    $num04.textContent = average[3];
+    $num05.textContent = average[4];
     event.target.classList.replace('now', 'waiting');
     $screen.textContent = '준비가 됬다면 클릭하세요';
   }

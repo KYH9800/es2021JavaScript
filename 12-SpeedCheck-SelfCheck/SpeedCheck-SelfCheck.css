@@ -36,3 +36,9 @@ main {
 .div01 div {
     padding: 7px;
 }
+
+.record {
+    display: flex;
+    margin-left: 45%;
+    margin-right: 45%;
+}
