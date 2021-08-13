@@ -3,36 +3,36 @@ header {
     background-color: whitesmoke;
     margin: 10px;
     padding: 30px;
-  }
-  
-  main {
+}
+
+main {
     text-align: center;
-  }
-  
-  #screen {
+}
+
+#screen {
     text-align: center;
     margin: 10px;
     padding: 80px;
-  }
-  
-  #btn {
+}
+
+#btn {
     margin: 10px;
     width: 150px;
     height: 30px;
-  }
-  
-  #screen.waiting {
+}
+
+#screen.waiting {
     background-color: blue;
-  }
-  
-  #screen.ready {
+}
+
+#screen.ready {
     background-color: red;
-  }
-  
-  #screen.now {
+}
+
+#screen.now {
     background-color: green;
-  }
-  
-  .div01 div {
+}
+
+.div01 div {
     padding: 7px;
-  }
+}

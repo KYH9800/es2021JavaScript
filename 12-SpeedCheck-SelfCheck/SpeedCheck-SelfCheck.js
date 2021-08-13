@@ -11,6 +11,7 @@ let startTime;
 let endTime;
 const average = []; // 평균값을 구하기 위한 배열
 let timeOutID;
+// let topFive = []; // length 5의 빈배열 생성
 // listenner function
 $screen.addEventListener('click', (event) => {
   // console.log('ready: ', event.target.classList.contains('ready'));
@@ -36,7 +37,8 @@ $screen.addEventListener('click', (event) => {
     endTime = new Date(); // 시간을 나타내주는 메서드
     // 시간 차이 저장하기
     $speed.textContent = `${endTime - startTime}ms` // 현재 반응속도
-    average.push(endTime - startTime); // 현재 반응 값을 평균 배열에 넣는다
+    let record = endTime - startTime;
+    average.push(record); // 현재 반응 값을 평균 배열에 넣는다
     // reduce를 통해 평균 배열 안의 모든 값을 더한다
     let allNum = average.reduce((idx, currValue) => { // todo: reduce 활용하기
       return idx + currValue;
@@ -45,8 +47,8 @@ $screen.addEventListener('click', (event) => {
     $average.textContent = `${Math.floor(divide)}ms` // 나타내준다
     startTime = null;
     endTime = null; // 시간을 초기화 해준다(혹시나를 대비)
-    // 속도를 내림차순으로 나열해 준다
-    $sort.textContent = '[ ' + average.sort((a, b) => a - b) + ' ]';
+    // 속도를 내림차순으로 나열해 준다 (top 5 순위로 나열)
+    $sort.textContent = average.sort((a, b) => a - b).slice(0, 5);
     event.target.classList.replace('now', 'waiting');
     $screen.textContent = '준비가 됬다면 클릭하세요';
   }
@@ -54,3 +56,18 @@ $screen.addEventListener('click', (event) => {
 $btn.addEventListener('click', () => {
   // TODO: 초기화 버튼
 });
+
+/*
+ if (topFive.length === 0) {
+      topFive.push(record);
+    }
+    if (topFive.length > 5) {
+      topFive.map((ele) => {
+        if (ele < record) {
+          topFive.push(record);
+          topFive.sort((a, b) => a - b);
+        }
+      })
+    }
+    console.log(topFive);
+*/
