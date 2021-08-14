@@ -20,3 +20,4 @@ for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자
   }
 }
 $main.append($table); // main tag 안에 테이블을 생성
+

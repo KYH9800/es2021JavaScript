@@ -35,6 +35,13 @@ $screen.addEventListener('click', (event) => {
 
   } else if (event.target.classList.contains('now')) { // 초록 화면인가?
     // 끝 시간 재가
+    if (average != null) { //! 수정본
+      let result = document.getElementById('result');
+      while (result.firstChild) {
+        result.removeChild(result.firstChild);
+      }
+    }
+
     endTime = new Date(); // 시간을 나타내주는 메서드
     // 시간 차이 저장하기
     let record = endTime - startTime;
@@ -48,11 +55,19 @@ $screen.addEventListener('click', (event) => {
     $average.textContent = `${Math.floor(divide)}ms` // 나타내준다
     // 속도를 내림차순으로 나열해 준다 (top 5 순위로 나열)
     const topFive = average.sort((a, b) => a - b).slice(0, 5);
+
     //! bug : 결과가 중복되어 나타남
+
+    // for(x in topFive){
+    //   let tempHtml = `${x+1}위 : ${topFive[x]}`
+    //   console.log(tempHtml)
+    //   $result.append(document.createElement('div'), tempHtml)
+    // }
     topFive.forEach((top, index) => { // forEach로 순위 나열
       // console.log(top, index);
       $result.append(document.createElement('br'), `${index + 1}위 : ${top}ms`);
     });
+
     startTime = null;
     endTime = null; // 시간을 초기화 해준다(혹시나를 대비)
     event.target.classList.replace('now', 'waiting');
@@ -62,6 +77,7 @@ $screen.addEventListener('click', (event) => {
 
 $btn.addEventListener('click', () => {
   // TODO: 초기화 버튼
+  window.location.reload();
 });
 
 /*
