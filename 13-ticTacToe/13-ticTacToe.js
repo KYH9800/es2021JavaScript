@@ -19,10 +19,11 @@ for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자
     let $td = document.createElement('td');
     $td.addEventListener('click', (event) => { //! click 시 표시는 여기
       //? 칸에 글자가 있나? 클자가 있으면, 그 칸은 함수 종료
-      if(event.target.textContent) return;
-      //* 순서는 O부터 시작, 이후 턴 전환하기
+      if (event.target.textContent) return;
+      //* 순서는 'O'부터 시작, 이후 턴 전환하기
       event.target.textContent = turn;
       //* 승부확인
+      
       if (turn === 'O') {
         turn = 'X';
       } else if (turn === 'X') {
@@ -34,3 +35,13 @@ for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자
   }
 }
 $main.append($table); // main tag 안에 테이블을 생성
+
+/* 표를 자바스크립트로 표시하면 다음과 같다
+[
+ [null, 'X', null],
+ ['O', null, 'X'],
+ [null, 'O', null],
+}
+*/
+
+//? 구조분해 할당
