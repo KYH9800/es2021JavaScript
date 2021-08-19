@@ -3,17 +3,14 @@
 // todo: 가로 세로 대각선 3칸이 같은 모양이면, 승리
 // todo: 게임이 끝나면 몇 초 뒤에 모든 칸이 리셋된다.
 // tags
-const {
-  querySelector,
-  createElement
-} = document; //* 구조분해할당
-const $main = querySelector('main'); // main tag
-const $table = createElement('table'); // tableTag
-const $result = createElement('div'); // resultTag
+// const { querySelector, createElement } = document; //? destructuring ...error(why??)
+//! error massege(Uncaught TypeError: Illegal invocation)
+const $main = document.querySelector('main'); // main tag
+const $table = document.createElement('table'); // tableTag
+const $result = document.createElement('div'); // resultTag
 
-let turn = 'O';
-// 이차원 배열 3X3, 배열 안에 배열을 3개 넣어준다
-const data = [];
+let turn = 'O'; // 순서는 'O' 부터 시작
+const data = []; // 이차원 배열 3X3, 배열 안에 배열을 3개 넣어준다
 for (let i = 0; i < 3; i++) {
   data.push([]); // [ [], [], [] ] 이차원 배열
 }
@@ -51,7 +48,13 @@ $main.append($result); // main tag 안에 결과를 보여줄 태그 생성
 */
 
 /*
-const $main = document.querySelector('main'); // main tag
-const $table = document.createElement('table'); // tableTag
-const $result = document.createElement('div'); // resultTag
+  const $main = document.querySelector('main'); // main tag
+  const $table = document.createElement('table'); // tableTag
+  const $result = document.createElement('div'); // resultTag
+*/
+/*
+  const {
+    querySelector,
+    createElement
+  } = document; //* 구조분해할당(destructuring)
 */
