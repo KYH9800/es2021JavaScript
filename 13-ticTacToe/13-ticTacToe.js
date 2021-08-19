@@ -41,13 +41,15 @@ for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자(반복문 
     let $td = document.createElement('td'); // 세로
     cells.push($td); // 이차원 배열
     console.log('cells: ', cells); // 세로
-    $td.addEventListener('click', callback); //* 칸 callback function으로 위로 만듦
+    //! (하단: 이벤트 버블링 #table에 이벤트 리스너 작동)
+    // $td.addEventListener('click', callback); //* 칸 callback function으로 위로 만듦
     $table.append($tr);
     $tr.appendChild($td);
   }
   rows.push(cells); // 가로행
   console.log('rows: ', rows);
 }
+$table.addEventListener('click', callback); //! 이벤트 버블링
 $main.append($table); // main tag 안에 테이블을 생성
 $main.append($result); // main tag 안에 결과를 보여줄 태그 생성
 
@@ -58,17 +60,24 @@ $main.append($result); // main tag 안에 결과를 보여줄 태그 생성
  [null, 'O', null],
 }
 */
-
-/*
-  const $main = document.querySelector('main'); // main tag
-  const $table = document.createElement('table'); // tableTag
-  const $result = document.createElement('div'); // resultTag
-*/
-/*
-  const {
-    querySelector,
-    createElement
-  } = document; //* 구조분해할당(destructuring)
+/* //* 구조분해할당(destructuring)
+const obj = {
+  a: 1,
+  b: 2,
+  c: {
+    d: 3,
+    e: {
+      f: 4
+    }
+  }
+}
+const { a, b, c: { d. e: { f } } } = obj;
+console.log(a, b, d, f);
+결과 > { 1, 2, 3, 4 } // c, e는 변수가 되지 않는다
+? 문제: e만 골라서 출력해라
+1. const { c: { e } } = obj;
+2. const { c } = obj >> obj.c
+   const { e } = c; >> c.e
 */
 /*
 const data = []; // 이차원 배열 3X3, 배열 안에 배열을 3개 넣어준다
@@ -76,10 +85,9 @@ for (let i = 0; i < 3; i++) {
   data.push([]); // [ [], [], [] ] 이차원 배열
 }
 */
-//! tr 태그를 3번 순회해서 [] 배열을 3번 넣는다
-//! tr 태그마다 td 태그를 3번씩 넣는다 / []배열 안에 []배열을 3번씩 또 넣어준다
-//* 이차원 배열
-/*
+//* tr 태그를 3번 순회해서 [] 배열을 3번 넣는다
+//* tr 태그마다 td 태그를 3번씩 넣는다 / []배열 안에 []배열을 3번씩 또 넣어준다
+/* //* 이차원 배열
   tr
   1. []
   2. []
@@ -97,3 +105,14 @@ if (turn === 'O') {
   turn = 'O';
 }
 */
+/** //* Event Bubbling && Capturing (이벤트 버블링, 캐처링)
+ *! 이벤트 버블링이란? (html 현상이므로 반드시 알아두자)
+ *  1. html의 특성을 미리 알아보자
+ *    - html은 addEventListenner click 이벤트 발생 시 동작이 선택한 태그의 상위 부모 태그들로 올라간다
+ *    - ex) td Click >> tr >> table >> body
+ *  2. event가 부모 태그를 따라서 방울처럼 계속 올라간다 (공기방울이 수면위로 올라가듯이)
+ *? 3. $table 태그를 click 시 이벤트 버블링 현상으로 td, tr 을 거쳐서 table이 실행되기 떄문에 정상 작동되는 것
+ *  4. 만일 callback 함수 안에서 table을 가져오고 싶다면, event.currentTarget 하면된다
+ *  5. event.target은 target이 누가 될지 모르는 반면, event.currentTarget은 항상 확실하게 지정한 태그만 가져온다
+ *  6. 제한을 두기보다는 잘 이해하고 잘 쓰면된다
+ */
