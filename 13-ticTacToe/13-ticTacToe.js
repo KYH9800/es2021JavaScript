@@ -14,28 +14,34 @@ const $main = document.querySelector('main'); // main tag
 const $table = document.createElement('table'); // tableTag
 const $result = document.createElement('div'); // resultTag
 
-let turn = 'O'; // 순서는 'O' 부터 시작
 const rows = []; // 가로열: 이차원 배열 3X3, 배열 안에 배열을 3개 넣어준다
+let turn = 'O'; //* 순서는 'O' 부터 시작
+
+//* callback(listenner) function
+const callback = (event) => { //! td 칸 click 시 표시는 여기
+  //? 칸에 글자가 있나? 클자가 있다면, 그 칸은 함수 종료
+  // if (event.target.textContent) return; //* 아래와 동일한 동작의 로직
+  if (event.target.textContent !== '') {
+    console.log('빈칸이 아닙니다');
+    return;
+  } // else 빈칸이면
+  console.log('빈칸입니다')
+  event.target.textContent = turn;
+  //* 턴 전환하기
+  turn = (turn === 'O') ? 'X' : 'O'; // 삼항연산자
+  // todo: 승부확인
+}
 
 // 3X3 테이블 생성 (html 구조 참고)
 //! 반복문을 통해 이차원 배열을 생성 (주의: 제대로 생각하고 만들기)
-for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자
+for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자(반복문 변수 i)
   const $tr = document.createElement('tr'); // 가로
   const cells = []; // 세로행
-  for (let i = 0; i < 3; i++) { // td tag를 tr에 3번 넣어주자
+  for (let j = 0; j < 3; j++) { // td tag를 tr에 3번 넣어주자(반복문 변수 j)
     let $td = document.createElement('td'); // 세로
     cells.push($td); // 이차원 배열
     console.log('cells: ', cells); // 세로
-    $td.addEventListener('click', (event) => { //! click 시 표시는 여기
-      if (event.target.textContent) return; //? 칸에 글자가 있나? 클자가 있으면, 그 칸은 함수 종료
-      event.target.textContent = turn;
-      //* 승부확인
-      if (turn === 'O') { //* 순서는 'O'부터 시작, 이후 턴 전환하기
-        turn = 'X';
-      } else if (turn === 'X') {
-        turn = 'O';
-      }
-    });
+    $td.addEventListener('click', callback); //* 칸 callback function으로 위로 만듦
     $table.append($tr);
     $tr.appendChild($td);
   }
@@ -82,4 +88,12 @@ for (let i = 0; i < 3; i++) {
   1. [ [] ,[], [] ] 
   2. [ [], [], [] ] 
   3. [ [], [], [] ]
+*/
+//* 턴 전환하기 (리팩토링 전 version)
+/*
+if (turn === 'O') {
+  turn = 'X';
+} else if (turn === 'X') {
+  turn = 'O';
+}
 */
