@@ -53,6 +53,8 @@ $table.addEventListener('click', callback); //! 이벤트 버블링
 $main.append($table); // main tag 안에 테이블을 생성
 $main.append($result); // main tag 안에 결과를 보여줄 태그 생성
 
+//! --------------------------------- 학습 메모 --------------------------------- !//
+
 /* 표를 자바스크립트로 표시하면 다음과 같다
 [
  [null, 'X', null],
