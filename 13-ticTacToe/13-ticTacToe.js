@@ -93,6 +93,8 @@ const callback = (event) => { //! td 칸 click 시 표시는 여기
   // todo: 승부확인
   if (checkWinner(event.target)) { // 승자가 존재하는가?
     $result.textContent = `${turn}님의 승리!!`;
+    // $table.removeEventListener: 이벤트 버블링의 좋은점 (td로 했으면 9번 다 달아야된다)
+    $table.removeEventListener('click', callback);
     return;
   }
   // todo: 무승부 판단하기 (hint: 위의 승자, 패자 여부는 true && false로 이미 갈린다)
