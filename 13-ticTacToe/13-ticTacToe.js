@@ -28,6 +28,11 @@ let turn = 'O'; // 순서는 'O' 부터 시작
 // 2 [ td, td, td ] >> 0, 1, 2
 // 승부확인
 const checkWinner = (target) => {
+  // 반복문을 돌 필요없이 더 간단하게 쓸 수 있다
+  //* let rowIdx = target.parentNode.rowIndex; // td의 부모노드(tr)의 인덱스
+  //* let cellIdx = target.cellIndex; // td의 인덱스
+  console.log(target.parentNode.children); // 유사배열: 배열인척 하는 객체
+  console.log(Array.from(target.parentNode.children).indexOf(target)); // 진짜 배열로 변환 (Array.from())
   let rowIdx;
   let cellIdx;
   // arr.forEach(callback(currentvalue[, index[, array]])[, thisArg])
@@ -91,23 +96,19 @@ const callback = (event) => { //! td 칸 click 시 표시는 여기
   console.log('빈칸입니다')
   event.target.textContent = turn;
   // todo: 승부확인
-  if (checkWinner(event.target)) { // 승자가 존재하는가?
+  const hasWinner = checkWinner(event.target);
+  if (hasWinner) { // 승자가 존재하는가?
     $result.textContent = `${turn}님의 승리!!`;
     // $table.removeEventListener: 이벤트 버블링의 좋은점 (td로 했으면 9번 다 달아야된다)
     $table.removeEventListener('click', callback);
     return;
   }
   // todo: 무승부 판단하기 (hint: 위의 승자, 패자 여부는 true && false로 이미 갈린다)
-  let draw = true;
-  // 반복문으로 돌면서 칸마다 글자가 있는지 확인한다
-  // count로 9가 되면 무승부라는 조건을 줄 수도 있다
-  rows.forEach((row) => {
-    row.forEach((cell) => {
-      if (!cell.textContent) {
-        draw = false;
-      }
-    })
-  })
+  //* flat(): 유사배열(배열인척하는 객체)을 일차원 배열로 변환
+  //* every(): 칸이 모두 true라면 true, 하나라도 false면 false
+  //* some(): 한개라도 true면 true, 모두 false면 false
+  let draw = rows.flat().every((cell) => cell.textContent); //! 무승부 코드: refactoring
+  console.log('draw: ', draw);
   if (draw) {
     $result.textContent = '무승부 입니다';
   }
@@ -207,3 +208,17 @@ if (turn === 'O') {
  * ! 이벤트 캡처링은 버블링과 반대다 (상위 >> 하위)
  * - 팝업의 밖같 쪽을 클릭 시 팝업창이 닫히도록 하는데 많이 쓰이는 기술이다
  */
+
+//! 무승부 코드: refactoring
+/*
+let draw = true;
+  // 반복문으로 돌면서 칸마다 글자가 있는지 확인한다
+  // count로 9가 되면 무승부라는 조건을 줄 수도 있다
+  rows.forEach((row) => {
+    row.forEach((cell) => {
+      if (!cell.textContent) {
+        draw = false;
+      }
+    })
+  })
+*/
