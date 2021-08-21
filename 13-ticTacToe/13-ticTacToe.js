@@ -26,10 +26,11 @@ let turn = 'O'; // 순서는 'O' 부터 시작
 // 0 [ td, td, td ] >> 0, 1, 2
 // 1 [ td, td, td ] >> 0, 1, 2
 // 2 [ td, td, td ] >> 0, 1, 2
-// todo: 승부확인
+// 승부확인
 const checkWinner = (target) => {
   let rowIdx;
   let cellIdx;
+  // arr.forEach(callback(currentvalue[, index[, array]])[, thisArg])
   rows.forEach((row, ri) => { // 현재값, 인덱스
     row.forEach((cell, ci) => { // 현재값, 인덱스
       if (cell === target) {
@@ -75,6 +76,7 @@ const checkWinner = (target) => {
     hasWinner = true;
     console.log('대각선 빙고 WIN!!');
   }
+  return hasWinner;
 }
 
 //* callback(listenner) function
@@ -88,8 +90,25 @@ const callback = (event) => { //! td 칸 click 시 표시는 여기
   } // else 빈칸이면
   console.log('빈칸입니다')
   event.target.textContent = turn;
-  // todo: 승부확인(위의 함수 참고)
-  checkWinner(event.target); // <td> Tag
+  // todo: 승부확인
+  if (checkWinner(event.target)) { // 승자가 존재하는가?
+    $result.textContent = `${turn}님의 승리!!`;
+    return;
+  }
+  // todo: 무승부 판단하기 (hint: 위의 승자, 패자 여부는 true && false로 이미 갈린다)
+  let draw = true;
+  // 반복문으로 돌면서 칸마다 글자가 있는지 확인한다
+  // for() {} or forEach(() => {})
+  rows.forEach((row) => {
+    row.forEach((cell) => {
+      if (!cell.textContent) {
+        draw = false;
+      }
+    })
+  })
+  if (draw) {
+    $result.textContent = '무승부 입니다';
+  }
   turn = (turn === 'O') ? 'X' : 'O'; // 삼항연산자, 턴 전환하기
 }
 
@@ -114,6 +133,9 @@ for (let i = 0; i < 3; i++) { // tr tag를 table에 3번 넣어주자(반복문 
 $table.addEventListener('click', callback, false); //! <= '여기'
 $main.append($table); // main tag 안에 테이블을 생성
 $main.append($result); // main tag 안에 결과를 보여줄 태그 생성
+document.querySelector('#reset').addEventListener('click', () => { // 다시하기 버튼
+  history.go(0); // 페이지 새로고침
+});
 
 //! --------------------------------- 학습 메모 --------------------------------- !//
 
