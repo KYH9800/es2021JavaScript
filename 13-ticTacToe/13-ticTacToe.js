@@ -98,7 +98,7 @@ const callback = (event) => { //! td 칸 click 시 표시는 여기
   // todo: 무승부 판단하기 (hint: 위의 승자, 패자 여부는 true && false로 이미 갈린다)
   let draw = true;
   // 반복문으로 돌면서 칸마다 글자가 있는지 확인한다
-  // for() {} or forEach(() => {})
+  // count로 9가 되면 무승부라는 조건을 줄 수도 있다
   rows.forEach((row) => {
     row.forEach((cell) => {
       if (!cell.textContent) {
