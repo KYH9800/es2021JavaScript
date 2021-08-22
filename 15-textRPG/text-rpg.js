@@ -77,8 +77,21 @@ $gameMenu.addEventListener('submit', (e) => {
     $monsterHp.textContent = `HP: ${monster.hp} / ${monster.maxHp}`;
     $monsterAtt.textContent = `ATT: ${monster.att}`;
   } else if (input === '2') {
-    // todo
+    // todo code
   } else if (input === '3') {
-    // todo
+    // todo code
   }
+});
+
+$battleMenu.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const input = e.target['battle-input'].value;
+  if (input === '1') {
+
+  } else if (input === '2') {
+
+  } else if (input === '3') {
+
+  }
+  // todo: battle menu
 });
