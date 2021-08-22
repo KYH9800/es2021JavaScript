@@ -59,7 +59,6 @@ const checkWinner = (target) => {
 
 //* check Winner and Draw
 const checkWinnerAndDraw = (target) => {
-  // console.log('뭘로 받아옴??', target);
   const hasWinner = checkWinner(target);
   if (hasWinner) {
     $result.textContent = `${turn}님의 승리!!`;
@@ -98,7 +97,6 @@ const callback = (event) => {
       randomCell.textContent = 'X';
       checkWinnerAndDraw(randomCell); // 승부 판단하기
       clickable = true;
-      // console.log('이거는?', event.target);
     }, 1000);
   }
 }
