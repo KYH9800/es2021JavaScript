@@ -1,0 +1,115 @@
+header {
+  display: flex;
+  border-bottom: 1px solid black;
+  width: 87%;
+  margin-left: 8%;
+}
+
+.charactor {
+  text-align: center;
+  margin: 10px;
+  padding-left: 30px;
+  padding-right: 5px;
+  font-size: 20px;
+}
+
+.charactor div {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 2px solid black;
+}
+
+#sicssor:hover {
+  background-color: white;
+  color: black;
+}
+
+#marin:hover {
+  background-color: white;
+  color: black;
+}
+
+#verchur:hover {
+  background-color: white;
+  color: black;
+}
+
+.charactor div:hover {
+  background-color: white;
+  color: black;
+}
+
+.user {
+  margin-top: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.user div {
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.user .name {
+  font-size: 30px;
+}
+
+.experience {
+  margin-top: 50px;
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+#level {
+  font-size: 25px;
+}
+
+.experience .level {
+  padding-bottom: 5px;
+}
+
+.experience .exp {
+  padding-top: 5xp;
+}
+
+.hp {
+  margin-top: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.score {
+  margin-top: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+main {
+  text-align: center;
+  margin: 50px;
+}
+
+main button {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+main button:hover {
+  background-color: yellowgreen;
+  color: black;
+}
+
+main div {
+  margin: 70px;
+  font-size: 30px;
+}
+
+#log {
+  border: 1px solid white;
+  width: 90%;
+  height: 300px;
+}
