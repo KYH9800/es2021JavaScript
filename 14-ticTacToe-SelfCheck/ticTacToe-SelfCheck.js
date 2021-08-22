@@ -1,4 +1,3 @@
-// todo: self-check - 컴퓨터의 턴 만들기
 const $main = document.querySelector('main');
 const $table = document.createElement('table');
 const $result = document.createElement('div');
@@ -6,7 +5,7 @@ const $result = document.createElement('div');
 const rows = [];
 let turn = 'O';
 
-// 승부확인
+//* 승부확인
 const checkWinner = (target) => {
   let rowIdx;
   let cellIdx;
@@ -22,7 +21,7 @@ const checkWinner = (target) => {
   // 세칸은 다 채워졌나?
   let hasWinner = false;
   // 가로줄 검사
-  if ( //? 가로줄의 인덱스의 모든 값이 일치 하면 승리
+  if (
     (rows[rowIdx][0].textContent === turn) &&
     (rows[rowIdx][1].textContent === turn) &&
     (rows[rowIdx][2].textContent === turn)
@@ -58,16 +57,10 @@ const checkWinner = (target) => {
   return hasWinner;
 }
 
-// callback(listenner) function
-const callback = (event) => {
-  if (event.target.textContent !== '') {
-    console.log('빈칸이 아닙니다');
-    return;
-  }
-  console.log('빈칸입니다')
-  event.target.textContent = turn;
-
-  const hasWinner = checkWinner(event.target);
+//* check Winner and Draw
+const checkWinnerAndDraw = (target) => {
+  // console.log('뭘로 받아옴??', target);
+  const hasWinner = checkWinner(target);
   if (hasWinner) {
     $result.textContent = `${turn}님의 승리!!`;
     $table.removeEventListener('click', callback);
@@ -77,8 +70,37 @@ const callback = (event) => {
   console.log('draw: ', draw);
   if (draw) {
     $result.textContent = '무승부 입니다';
+    return;
   }
-  turn = (turn === 'O') ? 'X' : 'O';
+  turn = (turn === 'O' ? 'X' : 'O');
+}
+
+//* callback(listenner) function
+let clickable = true; // todo: PC의 순서동안 클릭 못하도록 하자
+const callback = (event) => {
+  if (!clickable) return;
+  if (event.target.textContent !== '') {
+    console.log('빈칸이 아닙니다');
+    return;
+  }
+  console.log('빈칸입니다')
+  event.target.textContent = turn;
+  // 승부 판단하기
+  checkWinnerAndDraw(event.target);
+  // PC차례
+  // todo: self-check - 컴퓨터의 턴 만들기
+  if (turn === 'X') {
+    //! filter() 조건에 해당하는 것들을 걸러준다
+    const emptyCells = rows.flat().filter((value) => !value.textContent);
+    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    clickable = false;
+    setTimeout(() => {
+      randomCell.textContent = 'X';
+      checkWinnerAndDraw(randomCell); // 승부 판단하기
+      clickable = true;
+      // console.log('이거는?', event.target);
+    }, 1000);
+  }
 }
 
 for (let i = 0; i < 3; i++) {
