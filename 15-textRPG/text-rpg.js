@@ -87,11 +87,11 @@ $battleMenu.addEventListener('submit', (e) => {
   e.preventDefault()
   const input = e.target['battle-input'].value;
   if (input === '1') {
-
+    // 1을 입력하면 공격
   } else if (input === '2') {
-
+    // 2를 선택하면 회복
   } else if (input === '3') {
-
+    // 3을 선택하면 도망
   }
   // todo: battle menu
 });
