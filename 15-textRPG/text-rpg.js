@@ -62,23 +62,51 @@ $startScreen.addEventListener('submit', (e) => {
   heroInitialStat.name = name;
 });
 
-$gameMenu.addEventListener('submit', (e) => {
+$gameMenu.addEventListener('submit', (e) => { // game-menu
   e.preventDefault();
   const input = e.target['menu-input'].value;
 
-  if (input === '1') {
+  if (input === '1') { // 모험
     $gameMenu.style.display = 'none';
     $battleMenu.style.display = 'block';
-    monster = JSON.parse(
+    monster = JSON.parse( //! 깊은 복사 (간단하게 샤용 가능, But 진짜 깊은 복사는 다른 사람이 쓴 코드를 활용)
       JSON.stringify(monsterList[Math.floor(Math.random() * monsterList.length)])
     );
-    monster.maxHp = monster.hp;
+    monster.maxHp = monster.hp; // 몬스터의 max HP가 없어서 넣어줬다
     $monsterName.textContent = monster.name;
     $monsterHp.textContent = `HP: ${monster.hp} / ${monster.maxHp}`;
     $monsterAtt.textContent = `ATT: ${monster.att}`;
-  } else if (input === '2') {
+
+    function studyNote() {
+      //*-------------------------깊은복사 && 얕은 복사 && 참조관계 -------------------------//
+      //! 깊은복사 && 얕은 복사 && 참조관계 알아두기!!
+      // 객체의 정보만 필요한거지 객체 자체가 필요한건 아니다 원본이 바뀌면 안되기 때문에 깊은 복사를 통해 정보만 가져왔다
+      // 깊은 복사: 모두 참조관계가 끊긴다
+      const monster1 = JSON.parse(JSON.stringify(monsterList[0])); // 깊은 복사
+      const monster2 = monsterList[0]; // 객체를 대입하면, '참조'
+      const monster3 = {
+        ...monster[0] // 얕은 복사: 껍대기만 복사, 내부는 참조관계 (겉 껍대기만 참조관계가 끊긴다)
+      }
+      monster1.name = 'new monster';
+      console.log(monsterList[0].name); // 슬라임
+      monster2.name = 'new monster';
+      console.log(monsterList[0].name); // 새 몬스터
+      console.log(monsterList[0] === monster1); // false, 깊은 복사
+      console.log(monsterList[0] === monster2); // true, 참조 관계
+      /*
+      ? 제로초 의견
+      ? 간단한 객체는 JSON.parse(JSON.stringify(객체));를 사용해도 크게 문제는 없다
+      ? 다만 성능도 느리고 함수나 Math, Data 같은 객체를 복사할 수 없다는 단점이 있다
+      ? 따라서 실무에서는 lodash 같은 라이브러리(다른 사람이 미리 만들어 둔 코드)를 사용하곤 한다
+      ! lodash 안에 clone이라는 함수가 있는데 그걸 쓰면 깊은 복사를 할 수 있다
+      */
+      // 배열의 얕은 복사는 크게 두가지가 있다 [ ...arr ];, arr.slice();
+    }
+    studyNote(); //* console.log를 실행하기 위한 목적
+
+  } else if (input === '2') { // 휴식
     // todo code
-  } else if (input === '3') {
+  } else if (input === '3') { // 종료
     // todo code
   }
 });
