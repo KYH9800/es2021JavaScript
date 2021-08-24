@@ -23,10 +23,24 @@ const heroInitialStat = {
   hp: 100,
   xp: 0,
   att: 10,
+  // 공격하고 회복하는 메서드 생성
+  attack: function (monster) { //* this는 function 일 때, 자기 자신을 가리킨다
+    // 현재 내부적으로 this는 객체를 가르킨다 (화살표 함수냐 아니냐가 중요!! window인지 아닌지 결정)
+    // attack: (monster) => {} 화살표 함수를 쓰면 this가 window가 되버린다 (browser에서 window가 됨)
+    // this를 사용 시 화살표 함수를 쓰면 안된다
+    //? window란? document의 부모로써, browser 전체를 담당하는 객체이다
+    //? javaScript에서의 this란? (맨 아래 주석 참고)
+    monster.hp -= this.att; // this.att = hero.att
+    this.hp -= monster.att; // this.hp = hero.hp
+  },
+  heal: function (monster) { // heal(monster){} 이렇게 생략도 가능
+    this.hp += 20; // hero.hp
+    this.hp -= monster.att; // hero.hp
+  }
 };
 // 몬스터가 아직 생성이 안됨
+// 배열, 랜덤으로 몬스터를 생성할 예정
 let monster = null;
-//! 배열, 랜덤으로 몬스터를 생성할 예정
 const monsterList = [{
     name: '슬라임',
     hp: 25,
@@ -111,15 +125,23 @@ $gameMenu.addEventListener('submit', (e) => { // game-menu
   }
 });
 
+// todo: battle menu
 $battleMenu.addEventListener('submit', (e) => {
   e.preventDefault()
   const input = e.target['battle-input'].value;
-  if (input === '1') {
-    // 1을 입력하면 공격
-  } else if (input === '2') {
-    // 2를 선택하면 회복
-  } else if (input === '3') {
-    // 3을 선택하면 도망
+  if (input === '1') { // 공격
+    heroInitialStat.attack(monster); // 몬스터 떄리고
+    // monster.attack(heroInitialStat); // 몬스터도 나 때리고
+    $heroHp.textContent = `HP: ${heroInitialStat.hp} / ${heroInitialStat.maxHp}`;
+    $monsterHp.textContent = `HP: ${monster.hp} / ${monster.maxHp}`;
+    $message.textContent = `${heroInitialStat.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다`;
+  } else if (input === '2') { // 회복
+  } else if (input === '3') { // 도망
   }
-  // todo: battle menu
 });
+
+//! javaScript에서의 this란? 링크: zerocho.com >> JavaScript >> this란?
+// this에 대해서 학습할 수 있다
+//! ECMAScript >> ES2015(ES6) function(함수) [3페이지 부근]
+// 화살표 함수에서 this는 어떻게 될까?
+// 도대체 this 자체는 무엇인가?
