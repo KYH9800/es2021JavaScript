@@ -84,11 +84,16 @@ class Game {
       1
       this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!!`);
     } else if (input === '2') { // 휴식
-      // todo
-      console.log('휴식');
+      if (this.hero.hp === this.hero.maxHp) {
+        this.showMessage(`현재 HP가 완전합니다`);
+        return;
+      } else {
+        this.hero.hp += 20;
+      }
+      this.showMessage(`20의 데미지를 회복. 현재 HP: ${this.hero.hp}`);
+      this.updateHeroStat();
     } else if (input === '3') { // 종료
-      // todo
-      console.log('종료');
+      this.quit();
     }
   };
   onBattleMenuInput = (e) => {
@@ -101,14 +106,33 @@ class Game {
       } = this;
       hero.attack(monster);
       monster.attack(hero);
-      this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+      if (hero.hp <= 0) { // hero의 hp가 0보다 작거나 같으면, 새로운 캐릭터를 생성한다
+        this.showMessage(`${hero.lev}레벨에서 전사. 새로운 주인공을 생성하세요`);
+        this.quit(); // 게임종료
+      } else if (monster.hp <= 0) { // monster의 hp가 0보다 작거나 같으면, 새로운 monster가 나온다
+        this.showMessage(`몬스터를 잡아 ${monster.xp}의 경험치를 얻었다.`);
+        hero.getXp(monster.xp);
+        this.monster = null;
+        this.changeScreen('game');
+      } else { // 전투 진행중
+        this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+      }
+
       this.updateHeroStat();
       this.updateMonsterStat();
     } else if (input === '2') { // 회복
-      this.hero.heal(this.monster);
-      this.showMessage(`20의 데미지를 회복하고, ${this.monster.att}의 데미지를 받았다.`);
-      this.updateHeroStat();
-      this.updateMonsterStat();
+      const {
+        hero,
+        monster
+      } = this;
+      if (hero.hp === hero.maxHp) {
+        this.showMessage(`현재 HP가 완전합니다`);
+      } else {
+        hero.heal(monster);
+        this.showMessage(`20의 데미지를 회복하고, ${monster.att}의 데미지를 받았다.`);
+        this.updateHeroStat();
+        this.updateMonsterStat();
+      }
     } else if (input === '3') { // 도망
       this.changeScreen('game');
     }
@@ -136,6 +160,7 @@ class Game {
     const {
       monster
     } = this; // const monster = this.monster;
+    console.log(monster);
     if (monster === null) {
       $monsterName.textContent = '';
       $monsterHp.textContent = '';
@@ -149,6 +174,16 @@ class Game {
   }
   showMessage(text) { // message
     $message.textContent = text;
+  }
+  quit() { // 게임종료
+    this.hero = null;
+    this.monster = null;
+    this.updateHeroStat();
+    this.updateMonsterStat();
+    $gameMenu.removeEventListener('submit', this.onGameMenuInput); // 지워준다
+    $battleMenu.removeEventListener('submit', this.onBattleMenuInput); // 지워준다
+    this.changeScreen('start');
+    game = null; // game은 class 밖같 위치 class가 아님
   }
 };
 // class Game {namw인자...this.hero = new Hero(this, name);}
@@ -169,6 +204,17 @@ class Hero {
   heal(monster) {
     this.hp += 20;
     this.hp -= monster.att;
+  }
+  getXp(monsterXp) {
+    this.xp += monsterXp;
+    if (this.xp >= this.lev * 15) {
+      this.xp -= this.lev * 15;
+      this.lev += 1;
+      this.maxHp += 5;
+      this.att += 5;
+      this.hp = this.maxHp;
+      this.game.showMessage(`Level Up!! Level: ${this.lev}`);
+    }
   }
 }
 
