@@ -80,11 +80,14 @@ class Game {
         randomMonster.xp,
       );
       //* 재사용 되는 메서드는 따로 빼놔서 만들어 놓는것이 좋다
-      this.updateMonsterStat();1
+      this.updateMonsterStat();
+      1
       this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!!`);
     } else if (input === '2') { // 휴식
+      // todo
       console.log('휴식');
     } else if (input === '3') { // 종료
+      // todo
       console.log('종료');
     }
   };
@@ -92,15 +95,25 @@ class Game {
     e.preventDefault(); // 기본동작 막기
     const input = e.target['battle-input'].value;
     if (input === '1') { // 공격
-      console.log('공격');
+      const {
+        hero,
+        monster
+      } = this;
+      hero.attack(monster);
+      monster.attack(hero);
+      this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+      this.updateHeroStat();
+      this.updateMonsterStat();
     } else if (input === '2') { // 회복
-      console.log('회복');
+      this.hero.heal(this.monster);
+      this.showMessage(`20의 데미지를 회복하고, ${this.monster.att}의 데미지를 받았다.`);
+      this.updateHeroStat();
+      this.updateMonsterStat();
     } else if (input === '3') { // 도망
       this.changeScreen('game');
     }
   };
-  // 업데이트 hero stat
-  updateHeroStat() {
+  updateHeroStat() { // 업데이트 hero stat
     const {
       hero
     } = this; // this.hero
