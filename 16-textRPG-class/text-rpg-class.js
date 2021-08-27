@@ -19,7 +19,6 @@ const $message = document.querySelector('#message');
 class Game {
   constructor(name) {
     this.monster = null;
-    this.hero = new Hero(this, name);
     this.monsterList = [{
         name: '슬라임',
         hp: 25,
@@ -39,13 +38,18 @@ class Game {
         xp: 50,
       }
     ];
-    this.start(); // Game.start();
+    this.start(name); // Game.start();
   }
-  start() { // Game.prototype.start = function() {...};
+  // start()의 this는 Game 객체이다
+  // 화살표 함수를 써야 밖같의 this를 가져온다
+  // 그냥 function 함수를 쓰면 addEventListener의 this는 $gameMenu의 form이 된다
+  start(name) { // Game.prototype.start = function() {...}, start: function() {...}
+    this.hero = new Hero(this, name);
     $gameMenu.addEventListener('submit', this.onGameMenuInput);
     $battleMenu.addEventListener('submit', this.onBattleMenuInput);
     this.changeScreen('game');
-  }
+    this.updateHeroStat();
+  };
   changeScreen(screen) {
     if (screen === 'start') { // screen이 start면? 
       $startScreen.style.display = 'block';
@@ -60,8 +64,8 @@ class Game {
       $gameMenu.style.display = 'none';
       $battleMenu.style.display = 'block';
     }
-  }
-  onGameMenuInput = (e) => {
+  };
+  onGameMenuInput = (e) => { // 밖같의 this를 가져오기 위해 화살표 함수를 쓴다
     e.preventDefault(); // 기본동작 막기
     const input = e.target['menu-input'].value;
     if (input === '1') { // 모험 ('battle')
@@ -71,7 +75,7 @@ class Game {
     } else if (input === '3') { // 종료
       console.log('종료');
     }
-  }
+  };
   onBattleMenuInput = (e) => {
     e.preventDefault(); // 기본동작 막기
     const input = e.target['battle-input'].value;
@@ -80,10 +84,30 @@ class Game {
     } else if (input === '2') { // 회복
       console.log('회복');
     } else if (input === '3') { // 도망
-      console.log('도망');
+      this.changeScreen('game');
     }
+  };
+  // 업데이트 hero stat
+  updateHeroStat() {
+    const {
+      hero
+    } = this;
+    // 주인공이 없다면, 값을 비운다
+    if (hero === null) {
+      $heroName.textContent = '';
+      $heroLevel.textContent = '';
+      $heroHp.textContent = '';
+      $heroXp.textContent = '';
+      $heroAtt.textContent = '';
+      return;
+    }
+    $heroName.textContent = hero.name;
+    $heroLevel.textContent = `, ${hero.lev}Lev`;
+    $heroHp.textContent = `, HP: ${hero.hp} / ${hero.maxHp}`;
+    $heroXp.textContent = `, XP: ${hero.xp} / ${15 * hero.lev}`;
+    $heroAtt.textContent = `, ATT: ${hero.att}`;
   }
-}
+};
 // class Game {namw인자...this.hero = new Hero(this, name);}
 class Hero {
   constructor(game, name) { // Game, '고윤혁'
@@ -129,8 +153,15 @@ $startScreen.addEventListener('submit', (e) => {
   // console.log(game);
 });
 
-//! javaScript에서의 this란? 링크: zerocho.com >> JavaScript >> this란?
-// this에 대해서 학습할 수 있다
-//! ECMAScript >> ES2015(ES6) function(함수) [3페이지 부근]
-// 화살표 함수에서 this는 어떻게 될까?
-// 도대체 this 자체는 무엇인가?
+/*
+* this는 호출 시점에 따라 가르키는 객체가 달라잔다
+! function 함수
+document.addEventListener('click', function() { // addEventListener의 this는 document
+  console.log(this); // document
+});
+
+! arrow function 화살표 함수
+document.addEventListener('click', () => { // 밖같의 this는 window
+  console.log(this); // window
+});
+*/
