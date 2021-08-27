@@ -70,6 +70,18 @@ class Game {
     const input = e.target['menu-input'].value;
     if (input === '1') { // 모험 ('battle')
       this.changeScreen('battle');
+      const randomIdx = Math.floor(Math.random() * this.monsterList.length);
+      const randomMonster = this.monsterList[randomIdx];
+      this.monster = new Monster( // 새 게임에 새 몬스터 객체 생성
+        this,
+        randomMonster.name,
+        randomMonster.hp,
+        randomMonster.att,
+        randomMonster.xp,
+      );
+      //* 재사용 되는 메서드는 따로 빼놔서 만들어 놓는것이 좋다
+      this.updateMonsterStat();1
+      this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!!`);
     } else if (input === '2') { // 휴식
       console.log('휴식');
     } else if (input === '3') { // 종료
@@ -91,7 +103,7 @@ class Game {
   updateHeroStat() {
     const {
       hero
-    } = this;
+    } = this; // this.hero
     // 주인공이 없다면, 값을 비운다
     if (hero === null) {
       $heroName.textContent = '';
@@ -106,6 +118,24 @@ class Game {
     $heroHp.textContent = `, HP: ${hero.hp} / ${hero.maxHp}`;
     $heroXp.textContent = `, XP: ${hero.xp} / ${15 * hero.lev}`;
     $heroAtt.textContent = `, ATT: ${hero.att}`;
+  }
+  updateMonsterStat() {
+    const {
+      monster
+    } = this; // const monster = this.monster;
+    if (monster === null) {
+      $monsterName.textContent = '';
+      $monsterHp.textContent = '';
+      $monsterAtt.textContent = '';
+      return;
+    }
+    // 메세지에 나타날 몬스터의 정보
+    $monsterName.textContent = monster.name;
+    $monsterHp.textContent = `HP: ${monster.hp} / ${monster.maxHp}`;
+    $monsterAtt.textContent = `ATT: ${monster.att}`;
+  }
+  showMessage(text) {
+    $message.textContent = text;
   }
 };
 // class Game {namw인자...this.hero = new Hero(this, name);}
@@ -131,12 +161,12 @@ class Hero {
 
 class Monster {
   constructor(game, name, hp, att, xp) {
-    this.game = game;
-    this.name = name;
-    this.maxHp = hp;
-    this.hp = hp;
-    this.xp = xp;
-    this.att = att;
+    this.game = game; // Game.game
+    this.name = name; // Monster.this.randommonster[randomIdx].name;
+    this.maxHp = hp; // Monster.this.randommonster[randomIdx].hp;
+    this.hp = hp; // Monster.this.randommonster[randomIdx].hp;
+    this.xp = xp; // Monster.this.randommonster[randomIdx].xp;
+    this.att = att; // Monster.this.randommonster[randomIdx].att;
   }
   attack(target) {
     target.hp -= this.att;
