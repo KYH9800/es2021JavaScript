@@ -134,7 +134,7 @@ class Game {
     $monsterHp.textContent = `HP: ${monster.hp} / ${monster.maxHp}`;
     $monsterAtt.textContent = `ATT: ${monster.att}`;
   }
-  showMessage(text) {
+  showMessage(text) { // message
     $message.textContent = text;
   }
 };
