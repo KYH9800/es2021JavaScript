@@ -2,6 +2,11 @@ body {
   text-align: center;
 }
 
+.mainVar {
+  margin: 20px;
+  font-size: 30px;
+}
+
 input {
   width: 200px;
   height: 30px;
