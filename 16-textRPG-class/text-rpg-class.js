@@ -197,6 +197,7 @@ class Unit { // Parent Class (다중상속 X)
     target.hp -= this.att;
   } // 공통부분, 다른부분은 밑에 super.attack(target);으로 공통된걸 불러온 후 로직 추가
 }
+//! 상속의 흐름을 잘 파악하자 유녀가!!
 class Hero extends Unit { // 상속
   constructor(game, name) { // Game, '고윤혁'
     super(game, name, 100, 10, 0); // 부모 클래스에서 받아온 공통인자
@@ -306,3 +307,4 @@ console.log(arr === deepCopy); // false
 // - this는 생성된 객체 자신을 가리키게 된다
 //? 5. class extends (클래스 상속)
 // extends 예약어로 상속 할 수 있다
+// 공통되는 속성이나 메서드는 부모 클래스로부터 상속 받는다
