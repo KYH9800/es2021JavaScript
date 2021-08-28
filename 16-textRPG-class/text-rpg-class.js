@@ -266,17 +266,17 @@ class Hero extends Unit {
 */
 
 //* 정리
-//? window
+//? 1. window
 // 브라우저에서 document와 console은 실제로 window.document, window.console이다
 // 앞의 window가 생략된 것
-//? this
+//? 2. this
 // this는 기본적으로 window다 어떤 떄 다른 값을 가지는지만 외우면 된다
 // Node에서는 globalThis가 window다
 // 객체를 통해 this를 사용할 때는 this가 해당 객체를 가리키게 된다
 // 특정 메서드는 콜백 함수의 this를 바꿉니다. addEventListener가 대표적이다(this는 tag를 가리킴)
 // this가 바뀌는 것을 원하지 않을 때는, 함수 선언문 대신 화살표 함수를 사용한다
 
-//? 참조, 깊은복사, 얕은복사
+//? 3. 참조, 깊은복사, 얕은복사
 // 깊은복사: JSON.parse(JSON.stringify(...));
 // - 껍데기와 안까지 모두 참조관계가 끊기고 복사가 되므로 값이 변하지 않는다
 // 얕은복사: slice(), 이 두개가 목적에 제일 부합하다 [...arr]; {...obj};
@@ -300,3 +300,9 @@ console.log(arr === shallowCopy); // false
 console.log(arr[0] === shallowCopy[0]); // true
 console.log(arr === deepCopy); // false
 */
+//? 4. class: 객체를 찍어내는 템플릿 문법
+// - class 예약어로 class를 생성하고, constructor 메서드 안에 기존 코드를 넣는다
+// - new를 붙여서 호출하면, constructor 함수가 실행되고 객체가 반환
+// - this는 생성된 객체 자신을 가리키게 된다
+//? 5. class extends (클래스 상속)
+// extends 예약어로 상속 할 수 있다
