@@ -14,7 +14,6 @@ const $monsterHp = document.querySelector('#monster-hp');
 const $monsterAtt = document.querySelector('#monster-att');
 // 게임의 상황 알림 메시지
 const $message = document.querySelector('#message');
-
 // todo: class로 게임을 재구성 해보자
 class Game {
   constructor(name) {
@@ -40,9 +39,6 @@ class Game {
     ];
     this.start(name); // Game.start();
   }
-  // start()의 this는 Game 객체이다
-  // 화살표 함수를 써야 밖같의 this를 가져온다
-  // 그냥 function 함수를 쓰면 addEventListener의 this는 $gameMenu의 form이 된다
   start(name) { // Game.prototype.start = function() {...}, start: function() {...}
     this.hero = new Hero(this, name);
     $gameMenu.addEventListener('submit', this.onGameMenuInput);
@@ -186,21 +182,26 @@ class Game {
     game = null; // game은 class 밖같 위치 class가 아님
   }
 };
-// class Game {namw인자...this.hero = new Hero(this, name);}
-class Hero {
-  constructor(game, name) { // Game, '고윤혁'
-    this.game = game; // hero.game = Game
-    this.name = name; // hero.name = '고윤혁'
-    this.lev = 1;
-    this.maxHp = 100;
-    this.hp = 100;
-    this.xp = 0;
-    this.att = 10;
+//! 상속은 여러번에 걸쳐서 할 수 있다 (위로 올라가며 공통된 로직을 싹 찾는다. 없으면 error)
+// class ParentUnit {...todo}; Unit extends ParentUnit {...todo};
+class Unit { // Parent Class (다중상속 X)
+  constructor(game, name, hp, att, xp) {
+    this.game = game;
+    this.name = name;
+    this.maxHp = hp;
+    this.hp = hp;
+    this.att = att;
+    this.xp = xp;
   }
-  // Hero.prototype.attack = function() {...}; 메서드를 생성(하단)
   attack(target) {
     target.hp -= this.att;
-  }
+  } // 공통부분, 다른부분은 밑에 super.attack(target);으로 공통된걸 불러온 후 로직 추가
+}
+class Hero extends Unit { // 상속
+  constructor(game, name) { // Game, '고윤혁'
+    super(game, name, 100, 10, 0); // 부모 클래스에서 받아온 공통인자
+    this.lev = 1;
+  } // attack(){...}이 Unit에 있어서 뺸다(상속)
   heal(monster) {
     this.hp += 20;
     this.hp -= monster.att;
@@ -217,19 +218,10 @@ class Hero {
     }
   }
 }
-
-class Monster {
+class Monster extends Unit {
   constructor(game, name, hp, att, xp) {
-    this.game = game; // Game.game
-    this.name = name; // Monster.this.randommonster[randomIdx].name;
-    this.maxHp = hp; // Monster.this.randommonster[randomIdx].hp;
-    this.hp = hp; // Monster.this.randommonster[randomIdx].hp;
-    this.xp = xp; // Monster.this.randommonster[randomIdx].xp;
-    this.att = att; // Monster.this.randommonster[randomIdx].att;
-  }
-  attack(target) {
-    target.hp -= this.att;
-  }
+    super(game, name, hp, att, xp);
+  } // attack(){...}이 Unit에 있어서 뺸다(상속)
 }
 
 let game = null; // 게임 시작 전으로 값은 null
@@ -253,4 +245,58 @@ document.addEventListener('click', function() { // addEventListener의 this는 d
 document.addEventListener('click', () => { // 밖같의 this는 window
   console.log(this); // window
 });
+
+  // start()의 this는 Game 객체이다
+  // 화살표 함수를 써야 밖같의 this를 가져온다
+  // 그냥 function 함수를 쓰면 addEventListener의 this는 $gameMenu의 form이 된다
+*/
+/*
+class Hero extends Unit {
+  constructor(){
+    super(game, name, 인자값, 인자값, 인자값);
+    (이어서)... 공통되지 못한 로직 추가
+  }
+* 공통된 메서드는 뺴도된다
+? 공통된 메서드에 각각 다르게 추가할 로직이 있다면? (아래와 같이 super.객체 활용)
+! attack() {
+!   super.attack(target); 부모 클래스의 attack
+!   ...부모 클래스 attack 외의 동작
+! }
+}
+*/
+
+//* 정리
+//? window
+// 브라우저에서 document와 console은 실제로 window.document, window.console이다
+// 앞의 window가 생략된 것
+//? this
+// this는 기본적으로 window다 어떤 떄 다른 값을 가지는지만 외우면 된다
+// Node에서는 globalThis가 window다
+// 객체를 통해 this를 사용할 때는 this가 해당 객체를 가리키게 된다
+// 특정 메서드는 콜백 함수의 this를 바꿉니다. addEventListener가 대표적이다(this는 tag를 가리킴)
+// this가 바뀌는 것을 원하지 않을 때는, 함수 선언문 대신 화살표 함수를 사용한다
+
+//? 참조, 깊은복사, 얕은복사
+// 깊은복사: JSON.parse(JSON.stringify(...));
+// - 껍데기와 안까지 모두 참조관계가 끊기고 복사가 되므로 값이 변하지 않는다
+// 얕은복사: slice(), 이 두개가 목적에 제일 부합하다 [...arr]; {...obj};
+// - 껍대기만 복사하고 안의 갚은 수정이 가능하거나 바뀐다
+//! 실무에서는 깊은복사 경우 라이브러리를 통해 깊은 복사를 한다
+//! (참고: lodash 라이브러리의 clone함수)
+// 예시 code (하단)
+/*
+const arr = [{
+  j: 'k'
+}, {
+  l: 'm'
+}];
+const reference = arr; // 참조
+const shallowCopy = [...arr]; // 얕은복사
+const deepCopy = JSON.parse(JSON.stringify(arr)); // 깊은복사
+
+console.log(arr === reference); // true
+console.log(arr[0] === reference[0]); // true
+console.log(arr === shallowCopy); // false
+console.log(arr[0] === shallowCopy[0]); // true
+console.log(arr === deepCopy); // false
 */
