@@ -12,6 +12,12 @@ main {
   text-align: center;
 }
 
+#wrapper {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 400px;
+}
+
 /* 카드 가로, 세로, 간격 */
 .card {
   display: inline-block;
@@ -33,7 +39,7 @@ main {
   transform-style: preserve-3d;
 }
 
-/* 카드가 뒤집히는 효과 */
+/* 카드가 뒤집히는 효과 .flipped */
 .card.flipped .card-inner {
   transform: rotateY(180deg);
 }
