@@ -80,16 +80,12 @@ class Game {
       1
       this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!!`);
     } else if (input === '2') { // 휴식
-      if (this.hero.hp === this.hero.maxHp) {
-        this.showMessage(`현재 HP가 완전합니다`);
-        return;
-      } else {
-        this.hero.hp += 20;
-      }
-      this.showMessage(`20의 데미지를 회복. 현재 HP: ${this.hero.hp}`);
+      this.hero.hp = this.hero.maxHp // 체력을 완전히 회복한다
       this.updateHeroStat();
+      this.showMessage(`충분한 휴식을 취했습니다`);
     } else if (input === '3') { // 종료
-      this.quit();
+      this.showMessage(' '); // 메세지 없애주고
+      this.quit(); // 끝내주고
     }
   };
   onBattleMenuInput = (e) => {
@@ -131,6 +127,9 @@ class Game {
       }
     } else if (input === '3') { // 도망
       this.changeScreen('game');
+      this.showMessage('부리나케 도망갔다!!');
+      this.monster = null; // 몬스터를 없애고
+      this.updateMonsterStat(); // 업뎃
     }
   };
   updateHeroStat() { // 업데이트 hero stat
@@ -235,7 +234,7 @@ $startScreen.addEventListener('submit', (e) => {
   // console.log(game);
 });
 
-/*
+/* this
 * this는 호출 시점에 따라 가르키는 객체가 달라잔다
 ! function 함수
 document.addEventListener('click', function() { // addEventListener의 this는 document
@@ -251,12 +250,11 @@ document.addEventListener('click', () => { // 밖같의 this는 window
   // 화살표 함수를 써야 밖같의 this를 가져온다
   // 그냥 function 함수를 쓰면 addEventListener의 this는 $gameMenu의 form이 된다
 */
-/*
-class Hero extends Unit {
-  constructor(){
-    super(game, name, 인자값, 인자값, 인자값);
-    (이어서)... 공통되지 못한 로직 추가
-  }
+/*  class Hero extends Unit {
+    constructor(){
+      super(game, name, 인자값, 인자값, 인자값);
+      (이어서)... 공통되지 못한 로직 추가
+    }
 * 공통된 메서드는 뺴도된다
 ? 공통된 메서드에 각각 다르게 추가할 로직이 있다면? (아래와 같이 super.객체 활용)
 ! attack() {
@@ -265,7 +263,6 @@ class Hero extends Unit {
 ! }
 }
 */
-
 //* 정리
 //? 1. window
 // 브라우저에서 document와 console은 실제로 window.document, window.console이다
