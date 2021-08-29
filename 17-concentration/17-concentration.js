@@ -8,6 +8,7 @@ let colorCopy = colors.concat(colors);
 let shuffled = [];
 let clicked = [];
 let completed = []; // 완료된 카드 배열
+let clickable = false;
 
 function shuffle() { // 피셔 - 예이츠 셔플
   for (let i = 0; colorCopy.length > 0; i += 1) {
@@ -32,8 +33,12 @@ function createCard(i) {
   card.appendChild(cardInner);
   return card;
 }
-// todo: 효과 발생중 클릭하는 것 막기 (2021/08/29)
+
 function onClickCard() {
+  // clickable이 true면 클릭 X, 2개가 이미 완성 된 카드면 클릭 X, 이미 한번 클릭했으면 클릭 X
+  if (!clickable || completed.includes(this) || clicked[0] === this) {
+    return;
+  }
   // e.target.classList.toggle();
   this.classList.toggle('flipped'); // 클릭한 card가 this가 된다(addEventListenner)
   clicked.push(this);
@@ -54,7 +59,7 @@ function onClickCard() {
     } // else
     setTimeout(() => {
       alert('축하합니다 모든 카드를 다 맞추셨네요');
-      //! return startGame(); 카드를 다 지우고 새로 생성 (게임 재시작)
+      resetGame(); // 게임이 끝나면 리셋
     }, 1000)
     return;
   } // 두 카드가 다른가?
@@ -66,7 +71,7 @@ function onClickCard() {
 };
 
 function startGame() {
-  // clickable = false;
+  clickable = false;
   shuffle();
   for (let i = 0; i < total; i += 1) {
     const card = createCard(i);
@@ -82,6 +87,56 @@ function startGame() {
     document.querySelectorAll('.card').forEach((card) => {
       card.classList.remove('flipped');
     });
+    clickable = true;
   }, 5000);
 };
 startGame();
+
+function resetGame() {
+  $wrapper.innerHTML = '';
+  colorCopy = colors.concat(colors);
+  shuffled = [];
+  completed = [];
+  startGame();
+}
+/* finction resetGame 에서
+원본이 바뀌는 얘들은 colors에 쓰면 곤란하다
+원본이 바뀌는 push, pop, unshift, shift, splice, sort() 등등...
+
+그리고 웬만하면 원본이 안바뀌는 메서드가 재사용성이 좋다
+아래의 메서드 암기 시 유용하다
+concat(), slice(), every(), some(), map(), forEach(() => {...}),
+find(), findIndex(), indexOf(), includes() 등등 ...
+ */
+
+/** 프로젝트를 만들때는...
+ ** 서비스(프로젝트)를 기획할 때는 바보도 쓸 수 있도록 쉽게 만들어야 한다
+ ** 보안적인 측면에서는 사용자가 해커라고 생각하고 서비스를 안전하게 만들어야 된다
+ */
+
+/** 효과 발생중 카드 클릭 막기
+ * 이제 버그를 잡아보자
+ * 1. 처음에 카드를 잠깐 보여줬다가 다시 뒤집히는 동안에는 카드를 클릭 할 수 없어야 하는데,
+ * 카드를 클릭하면 카드가 뒤집힌다
+ * 2. 이미 짝이 맞춰진 카드를 클릭해도 카드가 뒤집힌다
+ * 3. 한 카드를 두번 연달아 클릭하면 더 이상 그 카드가 클릭되지 않는다
+ * 4. 한 카드를 여러번 연달아 클릭하면 모두 다 맞췄다고 버그가 뜬다
+ * 5. 서로 다른 4가지 색의 카드를 연달아 클릭하면 마지막 두 카드가 앞면을 보인 채 남아있다
+ */
+//! 호출 스택과 이벤트 루프 *(중요)*
+/** 호출 스택과 이벤트 루프
+ * 클릭 이벤트는 비동기 이벤트 입니다. 그런데 그 안에 setTimeout 같은 비동기 함수들이
+ * 또 들어있으니 코드 실행 순서가 헷갈릴 수 밖에 없습니다.
+ * 코드의 실행 순서를 명확하게 알고 있어야 정확하게 코드를 설계할 수 있습니다.
+ * 코드의 실행 순서를 파악하려면, 호출 스택(call stack)과 이벤트 루프(event loop)라는
+ * 개념을 알아야 합니다. 이제는 마주할 때가 됨. 이 문턱을 넘어야 자바스크립트를 정복함
+ * 
+ * 정확한 개념은 아니지만, 코드의 실행 순서를 이해 할 수 있게 어느정도 추상화 하겠음
+ *!(호출 스택과 이벤트 루프 개념도를 참고 / 제로초 유튜브: 자바스크립트 강좌 11-5 참고)
+ * 이정도만 알고 있어도 코드 실행 순서를 파악하는데 크게 지장은 없다
+ * 
+ **우선 호출 스택(call stack)은 동기 코드를 담당하고,
+ **이벤트 루프(event loop)는 비동기 코드를 담당한다고 생각하면 된다.
+ * 추가로 비동기 코드 실행에는 백그라운드(background)와 태스크 큐(task queue)라는
+ * 개념도 등장한다
+ */
