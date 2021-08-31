@@ -33,7 +33,9 @@ function createCard(i) {
   card.appendChild(cardInner);
   return card;
 }
-
+// clicked: [2, 5, 8, 9]
+// 태스크 큐: 8, 9 위로 / 아직 setTimeout이 마저 다 끝나기 전에 올라감
+// 백: addEventListener(12),
 function onClickCard() {
   // clickable이 true면 클릭 X, 2개가 이미 완성 된 카드면 클릭 X, 이미 한번 클릭했으면 클릭 X
   if (!clickable || completed.includes(this) || clicked[0] === this) {
@@ -67,7 +69,7 @@ function onClickCard() {
     clicked[0].classList.remove('flipped'); // 다시 뒤집어 주고
     clicked[1].classList.remove('flipped'); // 다시 뒤집어 주고
     clicked = []; // 초기화
-  }, 600);
+  }, 600); //! 백그라운드(background) >> 태스크 큐(task queue) >> 아벤트 루프(event loop) >> 호출 함수(call stack)
 };
 
 function startGame() {
