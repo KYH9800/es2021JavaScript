@@ -65,11 +65,15 @@ function onClickCard() {
     }, 1000)
     return;
   } // 두 카드가 다른가?
+  //* 이벤트루프를 통해 원리를 파악하고 문제점을 찾아냈고 해결했다
+  //! 2. 이벤트루프 문제를 해결하기 위해 clickable을 false로 두고 카드가 두개가 됬을 때 true로 바꿔 클릭 못하게 하고 버그를 막아준다
+  clickable = false; //? 이벤트루프 문제 해결을 위함
   setTimeout(() => {
     clicked[0].classList.remove('flipped'); // 다시 뒤집어 주고
     clicked[1].classList.remove('flipped'); // 다시 뒤집어 주고
     clicked = []; // 초기화
-  }, 600); //! 백그라운드(background) >> 태스크 큐(task queue) >> 아벤트 루프(event loop) >> 호출 함수(call stack)
+    clickable = true; //? 이벤트루프 문제 해결을 위함
+  }, 600); //! 1. 백그라운드(background) >> 태스크 큐(task queue) >> 아벤트 루프(event loop) >> 호출 함수(call stack)
 };
 
 function startGame() {
@@ -159,3 +163,10 @@ find(), findIndex(), indexOf(), includes() 등등 ...
  */
 
 // console.trace(); 호출스택을 보여주는 메서드
+
+//* 이벤트루프를 해결하면서...
+// 이벤트루프를 알아야 버그를 찾아 해결할 수 있다
+// debugger를 통해서도 찾을수 있으나 브라우저에서 중간에 멈추기 때문에 찾기 힘든 경우도 있다
+// 때문에 결국 이벤트루프를 모르면 전혀 해결할 수 없다
+
+// 제로초: 자바스크립트 강좌 11-6. 이벤트 루프 분석으로 버그 해결하기
