@@ -1,3 +1,4 @@
+//! 여기선 호출스택, 이벤트루프만 알아가는게 제일 큰 수확이다. (추가 scope, lexical scoping, IIFE, 실행 컨텍스트, closure)
 /* 카드 뒤집기 효과는 CSS로 구현, flipped class 유무에 따라 잎, 뒤로 뒤집힌다 (추가: 앞으로 뒤집, 제거: 뒤로 뒤집) */
 const $wrapper = document.querySelector('#wrapper');
 
