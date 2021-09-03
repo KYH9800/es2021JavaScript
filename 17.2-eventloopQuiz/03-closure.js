@@ -152,11 +152,11 @@ for (var i = 0; i < 5; i++) {
 결국 alert 결과가 모두 5가 된다. */
 
 for (var i = 0; i < 5; i++) {
-  (function(j) {
-    $('#target' + j).on('click', function() {
+  (function (j) {
+    $('#target' + j).on('click', function () {
       alert(j);
     });
   })(i);
 }
 /* 이렇게 IIFE(즉시 호출 함수 표현식)를 사용하여 클로저를 만들어주면 j 값은 i에 해당하는 숫자로
-고정되기 때문에 해결된다. (고정된 j에 대한 클로저인 function을 만드는 셈이다. */
+고정되기 때문에 해결된다.(고정된 j에 대한 클로저인 function을 만드는 셈이다.*/
