@@ -1,0 +1,66 @@
+/* CSS는 구글을 참조합니다 */
+header {
+  text-align: center;
+  margin: 20px;
+  font-size: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: rgb(72, 70, 70);
+}
+
+main {
+  text-align: center;
+}
+
+#wrapper {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 400px;
+}
+
+/* 카드 가로, 세로, 간격 */
+.card {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  width: 70px;
+  height: 100px;
+  perspective: 140px;
+}
+
+/* 카드가 3D 처럼 */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  /* 카드를 뒤집을 수 있다 */
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* 카드가 뒤집히는 효과 .flipped */
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* 카드 앞면 색 */
+.card-front {
+  background: navy;
+}
+
+/* 카드 앞면, 뒷면 색 */
+.card-front,
+.card-back {
+  /* 앞면, 뒷면 2가지 div가 곂쳐진다 */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  /* 이거까지 해줘야 같이 설정이 된다 */
+  backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
