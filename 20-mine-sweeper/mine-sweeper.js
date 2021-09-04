@@ -44,19 +44,58 @@ function plantMine() { // mine을 생산
   return data; // 해당 함수에서 제공하는 data (선언 시 전역변수와는 참조관계가 끊김)
 }
 
+function onRightClick(e) {
+  e.preventDefault();
+  const target = e.target; // td값
+  const rowIndex = target.parentNode.rowIndex; // tr
+  const cellIndex = target.cellIndex; // td
+  const cellData = data[rowIndex][cellIndex];
+  // 지뢰면 지뢰로 없으면 없는대로
+  if (cellData === CODE.MINE) { // 지뢰면?
+    data[rowIndex][cellIndex] = CODE.QUESTION_MINE; // 물음표 지뢰로
+    target.className = 'question';
+    target.textContent = '?';
+  } else if (cellData === CODE.QUESTION_MINE) { // 물음표 지뢰면?
+    data[rowIndex][cellIndex] = CODE.FLAG_MINE; // 깃발 지뢰로
+    target.className = 'flag';
+    target.textContent = '!';
+  } else if (cellData === CODE.FLAG_MINE) { // 깃발 지뢰면?
+    data[rowIndex][cellIndex] = CODE.MINE; // 지뢰로
+    target.className = '';
+    target.textContent = 'X';
+  } else if (cellData === CODE.NORMAL) { // 닫힌 칸이면?
+    data[rowIndex][cellIndex] = CODE.QUESTION; // 물음표로
+    target.className = 'question';
+    target.textContent = '?';
+  } else if (cellData === CODE.QUESTION) { // 물음표면?
+    data[rowIndex][cellIndex] = CODE.FLAG; // 깃발로
+    target.className = 'flag';
+    target.textContent = '!';
+  } else if (cellData === CODE.FLAG) { // 깃발이면?
+    data[rowIndex][cellIndex] = CODE.NORMAL; // 닫힌칸으로
+    target.className = '';
+    target.textContent = '';
+  }
+}
+
 function drawTable() {
   data = plantMine(); // 전역변수 data에 return으로 제공한 data 삽입
-  console.log(data); //! console.log
   data.forEach((row) => {
     const $tr = document.createElement('tr');
     row.forEach((cell) => {
       const $td = document.createElement('td');
+      $td.addEventListener('click', (e) => {
+        console.log(cell); //* 클릭한 칸의 값
+      })
       if (cell === CODE.MINE) {
         $td.textContent = 'X'; // 개발의 편의를 위해
       }
       $tr.append($td);
     });
     $tbody.append($tr);
+    $tbody.addEventListener('contextmenu', onRightClick); // event Bubling
+    // (td -> tr -> table -> tbody) 이벤트 버블링
+    // 장점: removeEventListener를 한번만 하면되니까 편하다
   });
 }
 drawTable();
