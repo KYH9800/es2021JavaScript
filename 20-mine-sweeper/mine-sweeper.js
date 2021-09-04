@@ -43,7 +43,7 @@ function plantMine() { // mine을 생산
   }
   return data; // 해당 함수에서 제공하는 data (선언 시 전역변수와는 참조관계가 끊김)
 }
-
+// todo: 우 클릭으로 갓발 꽂기
 function onRightClick(e) {
   e.preventDefault();
   const target = e.target; // td값
@@ -77,6 +77,13 @@ function onRightClick(e) {
     target.textContent = '';
   }
 }
+// todo: 좌 클릭, 주변 지뢰 갯수 세기(optional chaining)
+function onLeftClick(e) {
+  const target = e.target;
+  const rowIndex = target.parentNode.rowIndex;
+  const cellIndex = target.cellIndex;
+  console.log(data[rowIndex][cellIndex]);
+}
 
 function drawTable() {
   data = plantMine(); // 전역변수 data에 return으로 제공한 data 삽입
@@ -84,9 +91,6 @@ function drawTable() {
     const $tr = document.createElement('tr');
     row.forEach((cell) => {
       const $td = document.createElement('td');
-      $td.addEventListener('click', (e) => {
-        console.log(cell); //* 클릭한 칸의 값
-      })
       if (cell === CODE.MINE) {
         $td.textContent = 'X'; // 개발의 편의를 위해
       }
@@ -94,6 +98,7 @@ function drawTable() {
     });
     $tbody.append($tr);
     $tbody.addEventListener('contextmenu', onRightClick); // event Bubling
+    $tbody.addEventListener('click', onLeftClick); // event Bubling
     // (td -> tr -> table -> tbody) 이벤트 버블링
     // 장점: removeEventListener를 한번만 하면되니까 편하다
   });
