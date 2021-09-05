@@ -6,6 +6,28 @@ header {
   background-color: rgb(54, 53, 53);
 }
 
+.wrapBtn {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 200px;
+  height: 70px;
+  font-size: 25px;
+}
+button:hover {
+  color: rgb(24, 23, 23);
+  background-color: rgb(172, 31, 31);
+}
+
+#timer {
+  display: none;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 table {
   border-collapse: collapse;
   margin: auto;
@@ -26,7 +48,7 @@ td.opened {
 }
 
 td.flag {
-  background: red;
+  background: blue;
 }
 
 td.question {
