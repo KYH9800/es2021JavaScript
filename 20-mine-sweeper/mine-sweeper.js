@@ -169,7 +169,7 @@ function startGame() {
     target.className = "opened";
     data[rowIndex][cellIndex] = count;
     openCount++;
-    console.log(openCount); // 몇칸을 열었는지 새어준다
+    // console.log(openCount); // 몇칸을 열었는지 새어준다
     // 칸의 개수가 (지뢰를 뺀) 칸 90개를 열었으면 게임은 끝
     if (openCount === row * cell - mine) {
       const time = (new Date() - startTime) / 1000;
@@ -216,11 +216,6 @@ function startGame() {
     } else if (cellData === CODE.MINE) {
       // 지뢰칸이면?
       // todo: 모든 지뢰를 다 오픈한다.
-      data.flat().filter((ele, idx) => {
-        if (ele === -6) {
-          cellData.textContent = "X";
-        }
-      });
       target.style.background = "red";
       target.textContent = "펑";
       target.className = "opened";
@@ -228,10 +223,10 @@ function startGame() {
       $tbody.removeEventListener("contextmenu", onRightClick);
       $tbody.removeEventListener("click", onLeftClick);
       // 지뢰 밟으면 게임을 다시시작
-      // setTimeout(() => {
-      //   alert("지뢰를 밟으셨네요. 게임을 다시 시작합니다.");
-      //   history.go(0);
-      // }, 1000);
+      setTimeout(() => {
+        alert("지뢰를 밟으셨네요. 게임을 다시 시작합니다.");
+        history.go(0);
+      }, 1000);
     } // 나머지는 무시
     // 아무동작도 안함
   }
@@ -242,7 +237,7 @@ function startGame() {
       const $tr = document.createElement("tr");
       row.forEach((cell) => {
         const $td = document.createElement("td");
-        //* if (cell === CODE.MINE) { $td.textContent = "X"; } // 개발의 편의를 위해 지뢰 표시
+        // if (cell === CODE.MINE) { $td.textContent = "X"; } // 개발의 편의를 위해 지뢰 표시
         $tr.append($td);
       });
       $tbody.append($tr);
