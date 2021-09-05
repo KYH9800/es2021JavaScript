@@ -1,19 +1,46 @@
 // todo: make a game for using reculsion function (재귀함수를 이용해 게임을 구현하세요)
+const $header = document.querySelector("header");
 const $timer = document.querySelector("#timer");
 const $tbody = document.querySelector("#table tbody");
 const $result = document.querySelector("#result");
-const $button = document.querySelector("#btn");
+// 난이도 설정
+const $normal = document.querySelector("#normal");
+const $middle = document.querySelector("#middle");
+const $high = document.querySelector("#high");
+$normal.addEventListener("click", () => onStartClick(1));
+$middle.addEventListener("click", () => onStartClick(2));
+$high.addEventListener("click", () => onStartClick(3));
 
-$button.addEventListener("click", () => {
-  $button.style.display = "none"; // 시작하면 버튼은 없애준다
+let level; // 난이도 설정
+function onStartClick(targetLevel) {
+  level = targetLevel;
+  startGame();
+}
+
+function startGame() {
   $timer.style.display = "block"; // 시작하면 타이머를 보여준다
+  $normal.style.display = "none";
+  $middle.style.display = "none";
+  $high.style.display = "none";
+  $header.style.display = "none";
+
+  let row; // 가로 줄
+  let cell; // 칸
+  let mine; // 지뢰
   // todo: 초보 중수 고수 단계 나누기
-  // const row = Math.floor(prompt("가로줄 길이를 입력하세요")); // 가로 줄
-  // const cell = Math.floor(prompt("세로칸은 몇칸 하실건가요?")); // 칸
-  // const mine = Math.floor(prompt("몇개의 지뢰를 심을까요?")); // 지뢰 개수
-  const row = 10; // 가로 줄
-  const cell = 10; // 칸
-  const mine = 10; // 지뢰
+  if (level === 1) {
+    row = 8; // 가로 줄
+    cell = 10; // 칸
+    mine = 10; // 지뢰
+  } else if (level === 2) {
+    row = 14; // 가로 줄
+    cell = 18; // 칸
+    mine = 40; // 지뢰
+  } else if (level === 3) {
+    row = 20; // 가로 줄
+    cell = 24; // 칸
+    mine = 99; // 지뢰
+  }
   const CODE = {
     // data code
     NORMAL: -1, // 닫힌 칸(지뢰 X)
@@ -188,6 +215,12 @@ $button.addEventListener("click", () => {
       openAround(rowIndex, cellIndex); // 주변의 칸을 열어준다
     } else if (cellData === CODE.MINE) {
       // 지뢰칸이면?
+      // todo: 모든 지뢰를 다 오픈한다.
+      data.flat().filter((ele, idx) => {
+        if (ele === -6) {
+          cellData.textContent = "X";
+        }
+      });
       target.style.background = "red";
       target.textContent = "펑";
       target.className = "opened";
@@ -195,10 +228,10 @@ $button.addEventListener("click", () => {
       $tbody.removeEventListener("contextmenu", onRightClick);
       $tbody.removeEventListener("click", onLeftClick);
       // 지뢰 밟으면 게임을 다시시작
-      setTimeout(() => {
-        alert("지뢰를 밟으셨네요. 게임을 다시 시작합니다.");
-        history.go(0);
-      }, 1000);
+      // setTimeout(() => {
+      //   alert("지뢰를 밟으셨네요. 게임을 다시 시작합니다.");
+      //   history.go(0);
+      // }, 1000);
     } // 나머지는 무시
     // 아무동작도 안함
   }
@@ -209,9 +242,7 @@ $button.addEventListener("click", () => {
       const $tr = document.createElement("tr");
       row.forEach((cell) => {
         const $td = document.createElement("td");
-        if (cell === CODE.MINE) {
-          $td.textContent = "X"; // 개발의 편의를 위해
-        }
+        //* if (cell === CODE.MINE) { $td.textContent = "X"; } // 개발의 편의를 위해 지뢰 표시
         $tr.append($td);
       });
       $tbody.append($tr);
@@ -222,7 +253,7 @@ $button.addEventListener("click", () => {
     });
   }
   drawTable();
-});
+}
 
 //* 지뢰심기
 //* 우 클릭으로 깃발 심기
