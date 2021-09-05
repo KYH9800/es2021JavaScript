@@ -77,12 +77,42 @@ function onRightClick(e) {
     target.textContent = '';
   }
 }
+function countMine(rowIndex, cellIndex) {
+  // 지뢰 개수를 세고 개수를 return 해준다
+  const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE];
+  let i = 0; // 지뢰 개수
+  
+  mines.includes(data[rowIndex -1]?.[cellIndex -1]) && i++;
+  mines.includes(data[rowIndex -1]?.[cellIndex]) && i++;
+  mines.includes(data[rowIndex -1]?.[cellIndex +1]) && i++;
+  mines.includes(data[rowIndex][cellIndex -1]) && i++;
+  mines.includes(data[rowIndex][cellIndex +1]) && i++;
+  mines.includes(data[rowIndex +1]?.[cellIndex -1]) && i++;
+  mines.includes(data[rowIndex +1]?.[cellIndex]) && i++;
+  mines.includes(data[rowIndex +1]?.[cellIndex +1]) && i++;
+  return i;
+
+  //? A && B >> A가 존재하면(true) B를 실행해라
+  //? A || B >> A가 존재하지 않으면(false) B를 실행해라
+  //! ?. optional chaining 연산자 (true면 실행해라)
+}
 // todo: 좌 클릭, 주변 지뢰 갯수 세기(optional chaining)
 function onLeftClick(e) {
   const target = e.target;
   const rowIndex = target.parentNode.rowIndex;
   const cellIndex = target.cellIndex;
-  console.log(data[rowIndex][cellIndex]);
+  const cellData = data[rowIndex][cellIndex];
+
+  if (cellData === CODE.NORMAL) { // 닫힌 칸이면?
+    const count = countMine(rowIndex, cellIndex); // 지뢰 개수를 센다
+    console.log(count);
+    target.textContent = count || ''; // 지뢰가 있으면 세어주고 없으면, 빈문자
+    target.className = 'opened';
+    data[rowIndex][cellIndex] = count;
+  } else if (cellData === CODE.MINE) { // 지뢰칸이면?
+    // 펑~!!
+  } // 나머지는 무시
+  // 아무동작도 안함
 }
 
 function drawTable() {
