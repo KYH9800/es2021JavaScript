@@ -1,4 +1,6 @@
 // todo: make a game for using reculsion function (재귀함수를 이용해 게임을 구현하세요)
+//* 1. 오른쪽 클릭 addEventListener('contextmenu', () => {});
+//* 2. optional chaining 문법: ?. >> truthy인 값이면 뒤 코드를 실행, falsy인 값이면 뒤 코드를 통째로 undefined
 const $header = document.querySelector("header");
 const $timer = document.querySelector("#timer");
 const $tbody = document.querySelector("#table tbody");
@@ -11,6 +13,7 @@ $normal.addEventListener("click", () => onStartClick(1));
 $middle.addEventListener("click", () => onStartClick(2));
 $high.addEventListener("click", () => onStartClick(3));
 
+const devMode = false; //! 개발자모드 ture && false (지뢰를 보여준다)
 let level; // 난이도 설정
 function onStartClick(targetLevel) {
   level = targetLevel;
@@ -237,7 +240,9 @@ function startGame() {
       const $tr = document.createElement("tr");
       row.forEach((cell) => {
         const $td = document.createElement("td");
-        // if (cell === CODE.MINE) { $td.textContent = "X"; } // 개발의 편의를 위해 지뢰 표시
+        if (cell === CODE.MINE) {
+          if (devMode) $td.textContent = "X";
+        } // 개발의 편의를 위해 지뢰 표시
         $tr.append($td);
       });
       $tbody.append($tr);
