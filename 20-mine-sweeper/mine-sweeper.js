@@ -1,6 +1,10 @@
 // todo: make a game for using reculsion function (재귀함수를 이용해 게임을 구현하세요)
 //* 1. 오른쪽 클릭 addEventListener('contextmenu', () => {});
-//* 2. optional chaining 문법: ?. >> truthy인 값이면 뒤 코드를 실행, falsy인 값이면 뒤 코드를 통째로 undefined
+//* 2. optional chaining 문법
+//* - ?. >> truthy인 값이면 뒤 코드를 실행, falsy인 값이면 뒤 코드를 통째로 undefined
+//* - ?? >> null과 undefined 만 걸러낸다
+//* reculsion function (재귀함수): 자기가 자기 자신을 호출하는 함수
+
 const $header = document.querySelector("header");
 const $timer = document.querySelector("#timer");
 const $tbody = document.querySelector("#table tbody");
@@ -15,6 +19,7 @@ $high.addEventListener("click", () => onStartClick(3));
 
 const devMode = false; //! 개발자모드 ture && false (지뢰를 보여준다)
 let level; // 난이도 설정
+
 function onStartClick(targetLevel) {
   level = targetLevel;
   startGame();
@@ -206,19 +211,85 @@ function startGame() {
     }, 0);
   }
 
+  // todo: 첫번째 클릭에는 지뢰 안나오게 막기
+  let normalCellFound = false; // 최적화 할 때 추가
+  let searched; // 최적화 할 때 추가
+  let firstClick = true;
+  //! 개발자 모드 지뢰탐색 함수
+  function devModeFuc() {
+    const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE];
+    data.forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        if (mines.includes(cell)) {
+          $tbody.children[rowIndex].children[cellIndex].textContent = "X";
+        }
+      });
+    });
+  }
+
+  function transferMine(rI, cI) {
+    if (normalCellFound) return; // 이미 빈칸을 찾았으면 종료
+    if (rI < 0 || rI >= row || cI < 0 || cI >= cell) return; // 실수로 -1 되는 것을 막아준다 (optional chining 안써도 됨)
+    if (searched[rI][cI]) return; // 이미 찾은 칸이면 종료
+    // 빈 칸인 경우
+    if (data[rI]?.[cI] === CODE.NORMAL) {
+      normalCellFound = true; // 이미 빈칸을 찾았으니 true
+      data[rI][cI] = CODE.MINE; // 현재 칸을 지뢰로
+      //! 개발자 모드에서의 지뢰 확인
+      if (devMode) devModeFuc();
+      // 지뢰 칸인 경우 8방향 탐색
+    } else {
+      searched[rI][cI] = true;
+      transferMine(rI - 1, cI - 1);
+      transferMine(rI - 1, cI);
+      transferMine(rI - 1, cI + 1);
+      transferMine(rI, cI - 1);
+      transferMine(rI, cI + 1);
+      transferMine(rI + 1, cI - 1);
+      transferMine(rI + 1, cI);
+      transferMine(rI + 1, cI + 1);
+    }
+  }
+  // 지뢰 칸 클릭 시 모든 지뢰를 다 오픈
+  function showMines() {
+    const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE];
+    data.forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        if (mines.includes(cell)) {
+          $tbody.children[rowIndex].children[cellIndex].textContent = "펑";
+          $tbody.children[rowIndex].children[cellIndex].style.background =
+            "rgb(172, 70, 52)";
+        }
+      });
+    });
+  }
+
   // todo: 좌 클릭, 주변 지뢰 갯수 세기(optional chaining)
   function onLeftClick(e) {
     const target = e.target;
     const rowIndex = target.parentNode.rowIndex;
     const cellIndex = target.cellIndex;
-    const cellData = data[rowIndex]?.[cellIndex]; // optional chaining
-
+    let cellData = data[rowIndex]?.[cellIndex]; // optional chaining
+    // 첫 클릭이면?
+    if (firstClick) {
+      firstClick = false;
+      searched = Array(row)
+        .fill()
+        .map(() => []); // 현재 위치한 줄을 배열로 갯수만큼 만듦 return [];
+      // 첫 클릭이 지뢰면?
+      if (cellData === CODE.MINE) {
+        transferMine(rowIndex, cellIndex); // 지뢰 옯기기
+        data[rowIndex][cellIndex] = CODE.NORMAL; // 지금 칸을 빈칸으로
+        cellData = CODE.NORMAL;
+      }
+    }
+    // 닫힌 칸이면?
     if (cellData === CODE.NORMAL) {
-      // 닫힌 칸이면?
       openAround(rowIndex, cellIndex); // 주변의 칸을 열어준다
-    } else if (cellData === CODE.MINE) {
       // 지뢰칸이면?
+    } else if (cellData === CODE.MINE) {
       // todo: 모든 지뢰를 다 오픈한다.
+      showMines(); // 나머지 지뢰도 다 보여준다
       target.style.background = "red";
       target.textContent = "펑";
       target.className = "opened";
