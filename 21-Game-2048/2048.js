@@ -1,36 +1,23 @@
 // todo: 13장 - 키보드, 마우스 이벤트 사용하기(2048 게임)
+const $table = document.getElementById("table");
+const $score = document.getElementById("score");
 
-// 시작
-/* const data;
-for (let i = 0; i < 4; i += 1) {
-  >> tr 만들고
-  let row = []
-  for (let j = 0; j < 4; j += 1) {
-    >> $td만들고
-    $tr.append('td')
-    let cell = [];
-    data = row.push(cell);
-  }
-} */
-// 랜덤한 위치에 2를 놓는다
-// 대기
+// data와 화면이 똑같아야 된다. 허나 서로 일치 시키는 것이 정말 귀찮은 작업이다
+// 그래서 react, vue, angular javaScript 라이브러리를 사용한다
+// 장점: 데이터를 바꾸면 화면을 알아서 바꿔주고, 화면 바뀔 일이 있다면 데이터도 같이 바꿔준다
+let data = [];
+// 게임을 시작하는 함수를 만든다
+function startGame() {
+  put2ToRandomCell(); // 2를 랜덤한 칸에 넣어준다
+  draw(); // 테이블을 넣어준다
+}
 
-/*
-- 마우스 or 키보드 이벤트 발생
-- 방향을 판단한다
-- 그 방향으로 숫자들을 보낸다
+function put2ToRandomCell() {
+  // todo: put '2' To Random-Cell
+}
 
-if(합쳐지는 게 있는가?) { //yes
-  숫자를 합쳐서 2배를 만든다
-  if(2048이 되었나?) {
-    yes 승리 >> 끝
-  } else { // 2048이 안됬다면
-    랜덤한 위치에 2를 놓는다 >> 대기
-  }
-} else { // no
-  if(공간이 있는가?) { // yes
-    랜덤한 위치에 2를 놓는다
-  } else { // no
-    패배 >> 끝
-  }
-} */
+function draw() {
+  // todo: draw table
+}
+
+startGame();
