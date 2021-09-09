@@ -5,3 +5,64 @@ header {
   padding: 10px;
   background-color: rgb(90, 87, 87);
 }
+#table {
+  border-collapse: collapse;
+  user-select: none; /* user가 드래그 하는 motion을 막는다 */
+}
+#table td {
+  border: 10px solid #bbada0;
+  width: 116px;
+  height: 128px;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
+#score {
+  user-select: none; /* user가 드래그 하는 motion을 막는다 */
+}
+
+/* 합쳐지는 색갈을 구분 */
+.color-2 {
+  background-color: #eee4da;
+  color: #776e65;
+}
+.color-4 {
+  background-color: #eee1c9;
+  color: #776e65;
+}
+.color-8 {
+  background-color: #e6a7a7;
+  color: white;
+}
+.color-16 {
+  background-color: #e97171;
+  color: white;
+}
+.color-32 {
+  background-color: #ec5555;
+  color: white;
+}
+.color-64 {
+  background-color: #e23737;
+  color: white;
+}
+.color-128 {
+  background-color: #e0d17d;
+  color: #776e65;
+}
+.color-256 {
+  background-color: #e2b283;
+  color: #776e65;
+}
+.color-512 {
+  background-color: #e2a161;
+  color: #776e65;
+}
+.color-1024 {
+  background-color: #e28a32;
+  color: #776e65;
+}
+.color-2048 {
+  background-color: #cc5936;
+  color: #776e65;
+}
