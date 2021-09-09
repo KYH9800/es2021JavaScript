@@ -1,4 +1,5 @@
 header {
+  user-select: none; /* user가 드래그 하는 motion을 막는다 */
   text-align: center;
   font-size: 30px;
   margin: 20px;
@@ -6,6 +7,7 @@ header {
   background-color: rgb(90, 87, 87);
 }
 #table {
+  margin: auto;
   border-collapse: collapse;
   user-select: none; /* user가 드래그 하는 motion을 막는다 */
 }
