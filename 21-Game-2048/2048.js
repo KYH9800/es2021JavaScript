@@ -66,11 +66,11 @@ function draw() {
 
 startGame();
 
-//! 개발을 위한 dummy data
+//! 개발을 위한 dummy data && todo list
 data = [
   [0, 2, 4, 2],
   [0, 0, 8, 0],
-  [2, 2, 2, 2],
+  [2, 0, 0, 2],
   [0, 16, 0, 4],
 ];
 draw();
@@ -81,33 +81,104 @@ draw();
 // 2를 없애고 더한 숫자를 이동한 칸 쪽으로 몰아버린다
 function moveCells(direction) {
   switch (direction) {
-    case "left":
+    //* case에 {...} block scope 활용, moveCells 함수 안에서 선언된 동명변수의 참조 관계를 끊기 위해
+    case "left": {
       // 임시로 새로운 데이터를 만들어 값을 넣어준다
       const newData = [[], [], [], []];
-      data.forEach((rowIdx, i) => {
-        rowIdx.forEach((cellIdx, j) => {
-          if (cellIdx) {
-            newData[i].push(cellIdx);
+      data.forEach((rowData, i) => {
+        rowData.forEach((cellData, j) => {
+          if (cellData) {
+            const currentRow = newData[i];
+            const prevData = currentRow[currentRow.length - 1];
+            // 이전 값과 현재 값이 같으면
+            if (prevData === cellData) {
+              currentRow[currentRow.length - 1] *= -2; // 연속적으로 합쳐지지 않게 음수로 변형
+            } else {
+              newData[i].push(cellData);
+            }
           }
         });
       });
       // 다시 돌면서 newData로 원본 data를 바꿔준다(값이 false면 0을 넣어준다)
       [1, 2, 3, 4].forEach((rowData, i) => {
         [1, 2, 3, 4].forEach((cellData, j) => {
-          data[i][j] = newData[i][j] || 0;
+          data[i][j] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
         });
       });
       console.log(data);
       break;
-    case "right":
-      console.log("right");
+    }
+    case "right": {
+      const newData = [[], [], [], []];
+      data.forEach((rowData, i) => {
+        rowData.forEach((cellData, j) => {
+          // j: 0 1 2 3 >> 3 - j: 3 2 1 0
+          if (rowData[3 - j]) {
+            const currentRow = newData[i];
+            const prevData = currentRow[currentRow.length - 1];
+            if (prevData === rowData[3 - j]) {
+              currentRow[currentRow.length - 1] *= -2;
+            } else {
+              newData[i].push(rowData[3 - j]);
+            }
+          }
+        });
+      });
+      [1, 2, 3, 4].forEach((rowData, i) => {
+        [1, 2, 3, 4].forEach((cellData, j) => {
+          data[i][3 - j] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
+        });
+      });
+      console.log(data);
       break;
-    case "up":
-      console.log("up");
+    }
+    case "up": {
+      const newData = [[], [], [], []];
+      data.forEach((rowData, i) => {
+        rowData.forEach((cellData, j) => {
+          if (cellData) {
+            const currentRow = newData[j];
+            const prevData = currentRow[currentRow.length - 1];
+            if (prevData === cellData) {
+              currentRow[currentRow.length - 1] *= -2;
+            } else {
+              newData[j].push(cellData);
+            }
+          }
+        });
+      });
+      console.log("up: ", newData);
+      [1, 2, 3, 4].forEach((rowData, i) => {
+        [1, 2, 3, 4].forEach((cellData, j) => {
+          data[j][i] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
+        });
+      });
+      console.log(data);
       break;
-    case "down":
-      console.log("down");
+    }
+    case "down": {
+      const newData = [[], [], [], []];
+      data.forEach((rowData, i) => {
+        rowData.forEach((cellData, j) => {
+          if (data[3 - i][j]) {
+            const currentRow = newData[j];
+            const prevData = currentRow[currentRow.length - 1];
+            if (prevData === data[3 - i][j]) {
+              currentRow[currentRow.length - 1] *= -2;
+            } else {
+              newData[j].push(data[3 - i][j]);
+            }
+          }
+        });
+      });
+      console.log(newData);
+      [1, 2, 3, 4].forEach((rowData, i) => {
+        [1, 2, 3, 4].forEach((cellData, j) => {
+          data[3 - j][i] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
+        });
+      });
       break;
+    }
   }
   put2ToRandomCell();
   draw();
