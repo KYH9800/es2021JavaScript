@@ -1,0 +1,45 @@
+header {
+  font-size: 30px;
+  text-align: center;
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: rgb(53, 51, 51);
+}
+main {
+  text-align: center;
+}
+.wrapper {
+  display: flex;
+}
+
+main div {
+  font-size: 15px;
+  margin: auto;
+}
+
+#btn {
+  width: 100px;
+  height: 35px;
+  background: rgb(70, 67, 67);
+  margin-bottom: 30px;
+}
+#btn:hover {
+  background: rgb(192, 94, 94);
+  color: black;
+}
+
+#table {
+  margin: auto;
+  border-collapse: collapse;
+  user-select: none; /* user가 드래그 하는 motion을 막는다 */
+}
+
+#table td {
+  border: 1px solid black;
+  width: 195px;
+  height: 199px;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
