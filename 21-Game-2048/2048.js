@@ -63,18 +63,21 @@ function draw() {
     });
   });
 }
-
 startGame();
 
 //! 개발을 위한 dummy data && todo list
 // data = [
-//   [0, 2, 4, 2],
-//   [0, 0, 8, 0],
-//   [2, 0, 0, 2],
-//   [0, 16, 0, 4],
+//   [8, 2, 4, 2],
+//   [4, 16, 8, 4],
+//   [2, 1024, 1024, 2],
+//   [4, 16, 8, 4],
 // ];
 // draw();
-
+function resetGame() {
+  data = [];
+  $table.textContent = "";
+  startGame();
+}
 // todo: 이동 방향 판단하기 (keyup, keydown)
 // 방향 판단 후 모션을 취해 줄 함수 moveCells
 // 해당 칸의 같은 숫자가 있으면 두 숫자를 더한다 (중간에 다른 숫자가 있으면 못 더함)
@@ -180,8 +183,20 @@ function moveCells(direction) {
       break;
     }
   }
-  put2ToRandomCell();
-  draw();
+  // todo: win or lose
+  if (data.flat().includes(2048)) {
+    draw();
+    setTimeout(() => {
+      alert("축하합니다. 승리하셨습니다.");
+      resetGame(); // reset
+    }, 1000);
+  } else if (!data.flat().includes(0)) {
+    alert("패배하셨습니다.");
+    resetGame(); // reset
+  } else {
+    put2ToRandomCell();
+    draw();
+  }
 }
 // 좌, 우, 아래, 위 방향키로 조절해보자
 window.onkeyup = (e) => {
