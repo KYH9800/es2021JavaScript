@@ -1,6 +1,8 @@
 // todo: 13장 - 키보드, 마우스 이벤트 사용하기(2048 게임)
+const $main = document.getElementById("main");
 const $table = document.getElementById("table");
 const $score = document.getElementById("score");
+const $button = document.getElementById("back");
 //! 함수의 재사용을 원활하게 하기 위해서는 global scope의 변수를 최소화 하는것이 좋다.
 // data와 화면이 똑같아야 된다. 허나 서로 일치 시키는 것이 정말 귀찮은 작업이다
 // 그래서 react, vue, angular javaScript 라이브러리를 사용한다
@@ -13,10 +15,20 @@ const $score = document.getElementById("score");
  ! 화면을 빈번하게 조작하는 (자주 그릴경우) 경우 이 fragment를 사용하는 것이 좋다
  */
 let data = []; //! 2048 Game의 핵심적인 data 변수
+const history = [];
+
+//* 되돌리기 (bug: 버튼을 클릭한채 마우스를 움직이니 숫자가 이동)
+$button.addEventListener("click", () => {
+  const prevDate = history.pop();
+  if (!prevDate) return; // 되돌릴게 없으면 종료
+  $score.textContent = prevDate.score;
+  data = prevDate.table;
+  draw();
+});
 // 게임을 시작하는 함수를 만든다
 function startGame() {
   //* table > fragment(메모리 안에만 존재한다) > tr > td
-  const $fragment = document.createDocumentFragment(); // 메모리 안애만 존재하는 tag
+  const $$fragment = document.createDocumentFragment(); // 메모리 안애만 존재하는 tag
   [1, 2, 3, 4].forEach(function () {
     const rowData = [];
     data.push(rowData);
@@ -26,9 +38,9 @@ function startGame() {
       const $td = document.createElement("td");
       $tr.appendChild($td);
     });
-    $fragment.appendChild($tr);
+    $$fragment.appendChild($tr);
   });
-  $table.appendChild($fragment);
+  $table.appendChild($$fragment);
   put2ToRandomCell(); // 2를 랜덤한 칸에 넣어준다
   draw(); // 테이블을 넣어준다
 }
@@ -83,6 +95,13 @@ function resetGame() {
 // 해당 칸의 같은 숫자가 있으면 두 숫자를 더한다 (중간에 다른 숫자가 있으면 못 더함)
 // 2를 없애고 더한 숫자를 이동한 칸 쪽으로 몰아버린다
 function moveCells(direction) {
+  //* motion이 생길 때 마다 data를 백업해준다
+  history.push({
+    table: JSON.parse(JSON.stringify(data)), // 깊은 복사(참조관계 모두 끊기)
+    score: $score.textContent,
+  });
+  console.log("현재: ", data);
+  console.log("과거: ", history);
   switch (direction) {
     //* case에 {...} block scope 활용, moveCells 함수 안에서 선언된 동명변수의 참조 관계를 끊기 위해
     case "left": {
@@ -95,6 +114,9 @@ function moveCells(direction) {
             const prevData = currentRow[currentRow.length - 1];
             // 이전 값과 현재 값이 같으면
             if (prevData === cellData) {
+              const score = parseInt($score.textContent);
+              $score.textContent =
+                score + currentRow[currentRow.length - 1] * 2;
               currentRow[currentRow.length - 1] *= -2; // 연속적으로 합쳐지지 않게 음수로 변형
             } else {
               newData[i].push(cellData);
@@ -108,7 +130,6 @@ function moveCells(direction) {
           data[i][j] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
         });
       });
-      console.log(data);
       break;
     }
     case "right": {
@@ -120,6 +141,9 @@ function moveCells(direction) {
             const currentRow = newData[i];
             const prevData = currentRow[currentRow.length - 1];
             if (prevData === rowData[3 - j]) {
+              const score = parseInt($score.textContent);
+              $score.textContent =
+                score + currentRow[currentRow.length - 1] * 2;
               currentRow[currentRow.length - 1] *= -2;
             } else {
               newData[i].push(rowData[3 - j]);
@@ -143,6 +167,9 @@ function moveCells(direction) {
             const currentRow = newData[j];
             const prevData = currentRow[currentRow.length - 1];
             if (prevData === cellData) {
+              const score = parseInt($score.textContent);
+              $score.textContent =
+                score + currentRow[currentRow.length - 1] * 2;
               currentRow[currentRow.length - 1] *= -2;
             } else {
               newData[j].push(cellData);
@@ -156,7 +183,7 @@ function moveCells(direction) {
           data[j][i] = Math.abs(newData[i][j]) || 0; // 음수 값을 다시 정수로
         });
       });
-      console.log(data);
+      // console.log(data);
       break;
     }
     case "down": {
@@ -167,6 +194,9 @@ function moveCells(direction) {
             const currentRow = newData[j];
             const prevData = currentRow[currentRow.length - 1];
             if (prevData === data[3 - i][j]) {
+              const score = parseInt($score.textContent);
+              $score.textContent =
+                score + currentRow[currentRow.length - 1] * 2;
               currentRow[currentRow.length - 1] *= -2;
             } else {
               newData[j].push(data[3 - i][j]);
@@ -191,7 +221,7 @@ function moveCells(direction) {
       resetGame(); // reset
     }, 1000);
   } else if (!data.flat().includes(0)) {
-    alert("패배하셨습니다.");
+    alert(`패배!! 최종점수는 ${$score.textContent}점 입니다.`);
     resetGame(); // reset
   } else {
     put2ToRandomCell();
@@ -215,12 +245,12 @@ window.onkeyup = (e) => {
 };
 // 마우스 드래그로 이동하는 효과를 만들어보자
 let startcoord; // 시작 좌표
-window.addEventListener("mousedown", (e) => {
+$main.addEventListener("mousedown", (e) => {
   startcoord = [e.clientX, e.clientY];
-  console.log(startcoord);
+  // console.log(startcoord);
 });
 // 시작 좌표로 부터 움직인 구간만큼의 방향을 받아오자
-window.addEventListener("mouseup", (e) => {
+$main.addEventListener("mouseup", (e) => {
   const endcoord = [e.clientX, e.clientY];
   const diffX = endcoord[0] - startcoord[0]; // diff(차이)
   const diffY = endcoord[1] - startcoord[1];
@@ -233,7 +263,7 @@ window.addEventListener("mouseup", (e) => {
   } else if (diffY < 0 && Math.abs(diffX) <= Math.abs(diffY)) {
     moveCells("up");
   }
-});
+}); //! window에서 main 안쪽만 event의 범위를 제안했다
 
 // window.addEventListener("keyup", (e) => { console.log(e); });
 // window.addEventListener("mousemove", (e) => { console.log(e); });

@@ -19,8 +19,20 @@ header {
   font-weight: bold;
   text-align: center;
 }
-#score {
+.score {
   user-select: none; /* user가 드래그 하는 motion을 막는다 */
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+footer {
+  text-align: center;
+}
+#back {
+  width: 100px;
+  height: 35px;
+  font-size: 15px;
 }
 
 /* 합쳐지는 색갈을 구분 */
