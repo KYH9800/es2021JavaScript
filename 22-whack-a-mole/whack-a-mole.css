@@ -1,10 +1,14 @@
+/* 기초 CSS */
+body {
+  user-select: none;
+}
 header {
   font-size: 30px;
   text-align: center;
   margin: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: rgb(53, 51, 51);
+  background-color: rgb(168, 170, 226);
 }
 main {
   text-align: center;
@@ -21,25 +25,68 @@ main div {
 #btn {
   width: 100px;
   height: 35px;
-  background: rgb(70, 67, 67);
+  background: rgb(214, 218, 156);
   margin-bottom: 30px;
 }
+
 #btn:hover {
   background: rgb(192, 94, 94);
   color: black;
 }
 
-#table {
-  margin: auto;
-  border-collapse: collapse;
-  user-select: none; /* user가 드래그 하는 motion을 막는다 */
+/* 본격 CSS */
+.row {
+  margin-left: 10%;
+  margin-right: 10%;
 }
-
-#table td {
-  border: 1px solid black;
-  width: 195px;
-  height: 199px;
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
+.cell {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: white;
+  overflow: hidden;
+}
+.gopher,
+.bomb {
+  width: 200px;
+  height: 200px;
+  bottom: 0;
+  position: absolute;
+  transition: bottom 1s;
+}
+.gopher {
+  background: url(./imageFiles/gopher.png) center center no-repeat;
+  background-size: 200px 200px;
+}
+.dead {
+  background: url(./imageFiles/dead_gopher.png) center center no-repeat;
+  background-size: 200px 200px;
+}
+.bomb {
+  background: url(./imageFiles/bomb.png) center center no-repeat;
+  background-size: 200px 200px;
+}
+.boom {
+  background: url(./imageFiles/explode.png) center center no-repeat;
+  background-size: 200px 200px;
+}
+.hidden {
+  bottom: -200px;
+}
+.hole {
+  width: 200px;
+  height: 150px;
+  position: absolute;
+  bottom: 0;
+  background: url(./imageFiles/mole-hole.png) center center no-repeat;
+  background-size: 200px 150px;
+}
+.hole-front {
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  background: url(./imageFiles/mole-hole-front.png) center center no-repeat;
+  background-size: 200px 30px;
 }
